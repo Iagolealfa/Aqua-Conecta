@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
 import 'package:aqua_conecta/routes.dart';
 
-class LoginView extends StatefulWidget {
+class CadastroView extends StatefulWidget {
 
-  const LoginView({super.key});
+  const CadastroView({super.key});
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _CadastroViewState createState() => _CadastroViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _CadastroViewState extends State<CadastroView> {
   bool _showPassword = true;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: ListView(
           children: <Widget>[
-            const Text('Login',
+            const Text('Cadastro',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color:Color.fromRGBO(113, 153, 213, 1),
@@ -33,15 +33,44 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 60,
             ),
-            SizedBox(
-              width: 87,
-              height: 120,
-              child: Image.asset("assets/images/logo_app.png"),
+            Container(
+              width: 327,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: Colors.white12,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: TextFormField(
+                //controller: _nomeController,
+                //autofocus: true,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: "Usuário",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                  ),
+                ),
+                style: const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
             ),
             const SizedBox(
-              height: 60,
+              height: 10,
             ),
             Container(
               width: 327,
@@ -78,7 +107,7 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Container(
               width: 327,
@@ -98,7 +127,7 @@ class _LoginViewState extends State<LoginView> {
                   suffixIcon: GestureDetector(
                     child: Icon(
                       _showPassword == true ? Icons.visibility_off : Icons.visibility,
-                      color: Color.fromRGBO(113, 153, 213, 1),
+                      color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
                     onTap: (){
                       setState(() {
@@ -127,33 +156,98 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 10,
             ),
             Container(
-              height: 40,
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                child: const Text(
-                  "Esqueceu a senha?",
-                  style: TextStyle(
+              width: 327,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: Colors.white12,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: TextFormField(
+                //autofocus: true,
+                //controller: _confirmPasswordController,
+                keyboardType: TextInputType.text,
+                obscureText: _showPassword,
+                decoration:  InputDecoration(
+                  suffixIcon: GestureDetector(
+                    child: Icon(
+                      _showPassword == true ? Icons.visibility_off : Icons.visibility,
+                      color: const Color.fromRGBO(113, 153, 213, 1),
+                    ),
+                    onTap: (){
+                      setState(() {
+                        _showPassword = !_showPassword;
+                      });
+                    },
+                  ),
+                  labelText: "Confirmar senha",
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  labelStyle: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Roboto',
-                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                onPressed: () {
-                  //Navigator.of(context).pushNamed('/esqueceuSenhaEnviar');
-                },
+                style: const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 10,
+            ),
+            Container(
+              width: 327,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: Colors.white12,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: TextFormField(
+                //controller: _emailController,
+                //autofocus: true,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: "Endereço",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                  ),
+                ),
+                style: const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
             ),
             LargeButton(
-              texto: 'Entrar',
+              texto: 'Cadastrar',
               onPressed: () {
-                //login();
+                //cadastro();
               },
             ),
             const SizedBox(
@@ -163,10 +257,10 @@ class _LoginViewState extends State<LoginView> {
               height: 40,
               child: TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/cadastro');
+                  Navigator.of(context).pushNamed('/login');
                 },
                 child: const Text(
-                  "Cadastre-se",
+                  "Já tem uma conta? Login",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -182,4 +276,3 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
-        
