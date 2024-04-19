@@ -143,7 +143,7 @@ class _LoginViewState extends State<LoginView> {
                   textAlign: TextAlign.center,
                 ),
                 onPressed: () {
-                  //Navigator.of(context).pushNamed('/esqueceuSenhaEnviar');
+                  Navigator.of(context).pushNamed('/esqueciSenhaEnviar');
                 },
               ),
             ),
