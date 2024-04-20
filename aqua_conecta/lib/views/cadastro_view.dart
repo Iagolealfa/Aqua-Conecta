@@ -3,8 +3,7 @@ import 'package:aqua_conecta/components/large_button.dart';
 import 'package:aqua_conecta/routes.dart';
 
 class CadastroView extends StatefulWidget {
-
-  const CadastroView({super.key});
+  const CadastroView({Key? key}) : super(key: key); // Adicione o 'Key?' como parâmetro opcional
 
   @override
   _CadastroViewState createState() => _CadastroViewState();
@@ -12,6 +11,8 @@ class CadastroView extends StatefulWidget {
 
 class _CadastroViewState extends State<CadastroView> {
   bool _showPassword = true;
+  bool _showConfirmPassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +25,11 @@ class _CadastroViewState extends State<CadastroView> {
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: ListView(
           children: <Widget>[
-            const Text('Cadastro',
+            const Text(
+              'Cadastro',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color:Color.fromRGBO(113, 153, 213, 1),
+                color: Color.fromRGBO(113, 153, 213, 1),
                 fontFamily: 'Roboto',
                 fontSize: 22,
               ),
@@ -123,13 +125,13 @@ class _CadastroViewState extends State<CadastroView> {
                 //controller: _passwordController,
                 keyboardType: TextInputType.text,
                 obscureText: _showPassword,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   suffixIcon: GestureDetector(
                     child: Icon(
-                      _showPassword == true ? Icons.visibility_off : Icons.visibility,
+                      _showPassword ? Icons.visibility_off : Icons.visibility,
                       color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         _showPassword = !_showPassword;
                       });
@@ -171,16 +173,16 @@ class _CadastroViewState extends State<CadastroView> {
                 //autofocus: true,
                 //controller: _confirmPasswordController,
                 keyboardType: TextInputType.text,
-                obscureText: _showPassword,
-                decoration:  InputDecoration(
+                obscureText: _showConfirmPassword,
+                decoration: InputDecoration(
                   suffixIcon: GestureDetector(
                     child: Icon(
-                      _showPassword == true ? Icons.visibility_off : Icons.visibility,
+                      _showConfirmPassword ? Icons.visibility_off : Icons.visibility,
                       color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        _showPassword = !_showPassword;
+                        _showConfirmPassword = !_showConfirmPassword;
                       });
                     },
                   ),
