@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
+import 'package:aqua_conecta/cervicos/autenticacacao_servico.dart';
 import 'package:aqua_conecta/routes.dart';
 
 class CadastroView extends StatefulWidget {
@@ -12,6 +13,27 @@ class CadastroView extends StatefulWidget {
 
 class _CadastroViewState extends State<CadastroView> {
   bool _showPassword = true;
+
+  TextEditingController _usuarioController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _senhaController = TextEditingController();
+  TextEditingController _confirmaSenhaController = TextEditingController();
+  TextEditingController _enderecoController = TextEditingController();
+
+  AutenticacaoServico _autenticacaoServico = AutenticacaoServico();
+
+  cadastro(){
+    String usuario = _usuarioController.text;
+    String email = _emailController.text;
+    String senha = _senhaController.text;
+    String confirmasenha = _confirmaSenhaController.text;
+    String endereco = _enderecoController.text;
+    
+    print("${_usuarioController.text}, ${_emailController.text}, ${_senhaController.text},${_enderecoController.text},");
+    _autenticacaoServico.cadastrarUsuario(nome: usuario, email: email, senha: senha, confirmaSenha: confirmasenha, endereco: endereco);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +67,7 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                //controller: _nomeController,
-                //autofocus: true,
+                controller: _usuarioController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   labelText: "Usuário",
@@ -82,8 +103,7 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                //controller: _emailController,
-                //autofocus: true,
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   labelText: "Email",
@@ -119,8 +139,7 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                //autofocus: true,
-                //controller: _passwordController,
+                controller: _senhaController,               
                 keyboardType: TextInputType.text,
                 obscureText: _showPassword,
                 decoration:  InputDecoration(
@@ -168,8 +187,7 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                //autofocus: true,
-                //controller: _confirmPasswordController,
+                controller: _confirmaSenhaController,
                 keyboardType: TextInputType.text,
                 obscureText: _showPassword,
                 decoration:  InputDecoration(
@@ -217,7 +235,7 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                //controller: _emailController,
+                controller: _enderecoController,
                 //autofocus: true,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
@@ -247,7 +265,7 @@ class _CadastroViewState extends State<CadastroView> {
             LargeButton(
               texto: 'Cadastrar',
               onPressed: () {
-                //cadastro();
+                cadastro();
               },
             ),
             const SizedBox(
