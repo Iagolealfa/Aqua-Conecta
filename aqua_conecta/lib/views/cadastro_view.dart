@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
-import 'package:aqua_conecta/service/autenticacao_service.dart';
+import 'package:aqua_conecta/services/autenticacao_service.dart';
 import 'package:aqua_conecta/routes.dart';
 
 class CadastroView extends StatefulWidget {
