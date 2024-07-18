@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
-import 'package:aqua_conecta/cervicos/autenticacacao_servico.dart';
+import 'package:aqua_conecta/service/autenticacao_service.dart';
 import 'package:aqua_conecta/routes.dart';
 
 class CadastroView extends StatefulWidget {
-
   const CadastroView({super.key});
 
   @override
@@ -22,16 +21,21 @@ class _CadastroViewState extends State<CadastroView> {
 
   AutenticacaoServico _autenticacaoServico = AutenticacaoServico();
 
-  cadastro(){
+  cadastro() {
     String usuario = _usuarioController.text;
     String email = _emailController.text;
     String senha = _senhaController.text;
     String confirmasenha = _confirmaSenhaController.text;
     String endereco = _enderecoController.text;
-    
-    print("${_usuarioController.text}, ${_emailController.text}, ${_senhaController.text},${_enderecoController.text},");
-    _autenticacaoServico.cadastrarUsuario(nome: usuario, email: email, senha: senha, confirmaSenha: confirmasenha, endereco: endereco);
 
+    print(
+        "${_usuarioController.text}, ${_emailController.text}, ${_senhaController.text},${_enderecoController.text},");
+    _autenticacaoServico.cadastrarUsuario(
+        nome: usuario,
+        email: email,
+        senha: senha,
+        confirmaSenha: confirmasenha,
+        endereco: endereco);
   }
 
   @override
@@ -46,10 +50,11 @@ class _CadastroViewState extends State<CadastroView> {
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: ListView(
           children: <Widget>[
-            const Text('Cadastro',
+            const Text(
+              'Cadastro',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color:Color.fromRGBO(113, 153, 213, 1),
+                color: Color.fromRGBO(113, 153, 213, 1),
                 fontFamily: 'Roboto',
                 fontSize: 22,
               ),
@@ -139,16 +144,18 @@ class _CadastroViewState extends State<CadastroView> {
                 ),
               ),
               child: TextFormField(
-                controller: _senhaController,               
+                controller: _senhaController,
                 keyboardType: TextInputType.text,
                 obscureText: _showPassword,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   suffixIcon: GestureDetector(
                     child: Icon(
-                      _showPassword == true ? Icons.visibility_off : Icons.visibility,
+                      _showPassword == true
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         _showPassword = !_showPassword;
                       });
@@ -190,13 +197,15 @@ class _CadastroViewState extends State<CadastroView> {
                 controller: _confirmaSenhaController,
                 keyboardType: TextInputType.text,
                 obscureText: _showPassword,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   suffixIcon: GestureDetector(
                     child: Icon(
-                      _showPassword == true ? Icons.visibility_off : Icons.visibility,
+                      _showPassword == true
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         _showPassword = !_showPassword;
                       });
