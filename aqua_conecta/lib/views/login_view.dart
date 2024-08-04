@@ -153,7 +153,7 @@ class _LoginViewState extends State<LoginView> {
             LargeButton(
               texto: 'Entrar',
               onPressed: () {
-                //login();
+                Navigator.of(context).pushNamed('/home');
               },
             ),
             const SizedBox(

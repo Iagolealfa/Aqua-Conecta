@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class LargeButton extends StatelessWidget {
 
-  const LargeButton({super.key, required this.texto, required this.onPressed});
+  const LargeButton({super.key, this.texto, required this.onPressed, this.icon});
 
-  final String texto;
+  final String? texto;
   final Function()? onPressed;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +25,24 @@ class LargeButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                texto,
-                style: const TextStyle(
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                  fontSize: 16,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
+              if (icon != null) ...[
+                Icon(
+                  icon,
+                  color: Colors.white,
                 ),
-                textAlign: TextAlign.center,
-              ),
+                if (texto != null) const SizedBox(width: 8),
+              ],
+              if (texto != null)
+                Text(
+                  texto!,
+                  style: const TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontSize: 16,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
             ],
           ),
         ),
