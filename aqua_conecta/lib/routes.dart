@@ -3,6 +3,7 @@ import 'views/login_view.dart';
 import 'views/cadastro_view.dart';
 import 'views/esqueci_senha_view.dart';
 import 'views/home_view.dart';
+import 'views/onboarding_view.dart';
 
 
 Map<String, WidgetBuilder> getAppRoutes() {
@@ -11,5 +12,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/cadastro': (context) => const CadastroView(),
     '/esqueciSenhaEnviar': (context) => const EsqueciSenhaView(),
     '/home': (context) => const HomeView(),
+    '/onboarding': (context) => const OnboardingView(),
   };
 }
