@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634779855933",
+    "project_id": "aqua-conecta",
+    "storage_bucket": "aqua-conecta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634779855933:android:d72471f26f5a9d1f850e54",
+        "android_client_info": {
+          "package_name": "com.example.aqua_conecta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT760_lDQHEPewiVbPO3e6k1X5fuX2Y4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

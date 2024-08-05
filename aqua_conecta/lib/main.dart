@@ -6,6 +6,7 @@ import 'package:aqua_conecta/services/firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "aqua_conecta",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
