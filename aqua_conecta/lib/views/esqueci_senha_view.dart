@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
-import 'package:aqua_conecta/routes.dart';
 
 class EsqueciSenhaView extends StatefulWidget {
 
