@@ -37,6 +37,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushNamed('/home');
               },
             ),
+            const SizedBox(height: 20),
             ListTile(
               dense: true,
               title: const Text("Relatório"),
@@ -45,6 +46,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushNamed('/relatorio');
               },
             ),
+            const SizedBox(height: 20),
             ListTile(
               dense: true,
               title: const Text("Contato"),
@@ -53,6 +55,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushNamed('/contato');
               },
             ),
+            const SizedBox(height: 20),
             ListTile(
               dense: true,
               title: const Text("Suporte"),
@@ -61,6 +64,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushNamed('/suporte');
               },
             ),
+            const SizedBox(height: 20),
             ListTile(
               dense: true,
               title: const Text("Sobre"),
@@ -69,12 +73,13 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushNamed('/sobre');
               },
             ),
+            const SizedBox(height: 20),
             ListTile(
               dense: true,
               title: const Text("Sair da conta"),
               leading: const Icon(Icons.exit_to_app),
               onTap: () {
-                
+                Navigator.of(context).pushNamed('/login');
               },
             ),
           ],

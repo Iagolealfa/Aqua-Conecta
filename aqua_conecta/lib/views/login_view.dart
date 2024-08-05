@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
-import 'package:aqua_conecta/routes.dart';
 
 class LoginView extends StatefulWidget {
 
@@ -98,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                   suffixIcon: GestureDetector(
                     child: Icon(
                       _showPassword == true ? Icons.visibility_off : Icons.visibility,
-                      color: Color.fromRGBO(113, 153, 213, 1),
+                      color: const Color.fromRGBO(113, 153, 213, 1),
                     ),
                     onTap: (){
                       setState(() {

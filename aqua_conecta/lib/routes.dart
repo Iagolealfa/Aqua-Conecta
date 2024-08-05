@@ -4,7 +4,10 @@ import 'views/cadastro_view.dart';
 import 'views/esqueci_senha_view.dart';
 import 'views/home_view.dart';
 import 'views/onboarding_view.dart';
-
+import 'views/relatorio_view.dart';
+import 'views/contato_view.dart';
+import 'views/suporte_view.dart';
+import 'views/sobre_view.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
@@ -13,5 +16,9 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/esqueciSenhaEnviar': (context) => const EsqueciSenhaView(),
     '/home': (context) => const HomeView(),
     '/onboarding': (context) => const OnboardingView(),
+    '/relatorio': (context) => const RelatorioView(),
+    '/contato': (context) => const ContatoView(),
+    '/suporte': (context) => const SuporteView(),
+    '/sobre': (context) => const SobreView(),
   };
 }
