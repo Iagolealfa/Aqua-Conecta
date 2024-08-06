@@ -3,6 +3,10 @@
         android:label="aqua_conecta"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB7cEGd-NrUYq_5LY4N2WQtKG5A58koOss"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
