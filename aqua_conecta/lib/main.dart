@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:aqua_conecta/services/firebase_options.dart';
+import 'package:aqua_conecta/view_models/cadastro_view_model.dart'; // Adicione esta linha
+import 'package:aqua_conecta/view_models/login_view_model.dart'; // Adicione esta linha
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,12 +18,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/onboarding',
-      routes: getAppRoutes(),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CadastroViewModel()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        // Adicione outros providers se necessário
+      ],
+      child: MaterialApp(
+        initialRoute: '/onboarding',
+        routes: getAppRoutes(),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
       ),
     );
   }

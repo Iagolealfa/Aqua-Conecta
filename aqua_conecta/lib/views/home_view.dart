@@ -23,6 +23,7 @@ class _HomeViewState extends State<HomeView> {
             child: ListView(
               children: const <Widget>[
                 SizedBox(height: 20),
+                // Adicione outros widgets aqui
               ],
             ),
           ),
@@ -32,25 +33,39 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    // popup
+                GestureDetector(
+                  onTap: () {
+                    // Ação ao clicar no botão
                   },
-                  backgroundColor: const Color(0xFF2544B4),
-                  child: const Icon(
-                    Icons.water_drop_outlined,
-                    color: Colors.white, // Cor do ícone
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF2544B4),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.water_drop_outlined,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                FloatingActionButton(
-                  onPressed: () {
-                    // popup
+                GestureDetector(
+                  onTap: () {
+                    // Ação ao clicar no botão
                   },
-                  backgroundColor: const Color(0xFF2544B4),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white, // Cor do ícone
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF2544B4),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

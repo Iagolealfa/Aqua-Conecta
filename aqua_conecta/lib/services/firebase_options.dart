@@ -30,12 +30,12 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -69,7 +69,7 @@ class DefaultFirebaseOptions {
     projectId: 'insurancetech-f69e9',
     storageBucket: 'insurancetech-f69e9.appspot.com',
     iosClientId:
-        '580194319126-jdc37432n9i2ngburn6a3b1tkd66ku4b.apps.googleusercontent.com',
+    '580194319126-jdc37432n9i2ngburn6a3b1tkd66ku4b.apps.googleusercontent.com',
     iosBundleId: 'com.example.insurancetech',
   );
 
@@ -80,7 +80,7 @@ class DefaultFirebaseOptions {
     projectId: 'insurancetech-f69e9',
     storageBucket: 'insurancetech-f69e9.appspot.com',
     iosClientId:
-        '580194319126-jdc37432n9i2ngburn6a3b1tkd66ku4b.apps.googleusercontent.com',
+    '580194319126-jdc37432n9i2ngburn6a3b1tkd66ku4b.apps.googleusercontent.com',
     iosBundleId: 'com.example.insurancetech',
   );
 }

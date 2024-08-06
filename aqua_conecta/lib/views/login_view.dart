@@ -1,21 +1,17 @@
+// lib/views/login_view.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:aqua_conecta/components/large_button.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
-  @override
-  _LoginViewState createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _showPassword = true;
-  final formKey = GlobalKey<FormState>();
+class LoginView extends StatelessWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<LoginViewModel>(context);
+    final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: Container(
@@ -27,7 +23,6 @@ class _LoginViewState extends State<LoginView> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
                 'Login',
@@ -59,13 +54,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Informe seu email!';
-                          }
-                          return null;
-                        },
-                        controller: _emailController,
+                        controller: viewModel.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           labelText: "Email",
@@ -81,13 +70,18 @@ class _LoginViewState extends State<LoginView> {
                             fontSize: 18,
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-
                         ),
                         style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 18,
                           color: Colors.black,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Informe seu email!';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -101,26 +95,18 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Informe sua senha!';
-                          }
-                          return null;
-                        },
-                        controller: _passwordController,
-                        obscureText: _showPassword,
+                        controller: viewModel.passwordController,
+                        obscureText: viewModel.showPassword,
                         decoration: InputDecoration(
                           suffixIcon: GestureDetector(
                             child: Icon(
-                              _showPassword
+                              viewModel.showPassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
                               color: const Color.fromRGBO(113, 153, 213, 1),
                             ),
                             onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
+                              viewModel.togglePasswordVisibility();
                             },
                           ),
                           labelText: "Senha",
@@ -141,6 +127,12 @@ class _LoginViewState extends State<LoginView> {
                           fontSize: 14,
                           color: Colors.black,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Informe sua senha!';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -170,9 +162,8 @@ class _LoginViewState extends State<LoginView> {
                 texto: 'Entrar',
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    //login();
+                    viewModel.login(context);
                   }
-                  //Navigator.of(context).pushNamed('/home');
                 },
               ),
               const SizedBox(height: 10),
