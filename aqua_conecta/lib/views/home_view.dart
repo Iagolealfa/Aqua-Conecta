@@ -14,7 +14,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final LatLng _center = const LatLng(-8.017788, -34.944763);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
