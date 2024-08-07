@@ -13,6 +13,8 @@ class CadastroViewModel extends ChangeNotifier {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController adressController = TextEditingController();
   bool showPassword = true;
+  
+  bool showConfirmPassword = true;
 
   Future<void> cadastrar(BuildContext context) async {
     if (passwordController.text != confirmPasswordController.text) {
@@ -75,4 +77,9 @@ class CadastroViewModel extends ChangeNotifier {
     showPassword = !showPassword;
     notifyListeners();
   }
+  void toggleConfirmPasswordVisibility() {
+  showConfirmPassword = !showConfirmPassword;
+  notifyListeners();
 }
+}
+
