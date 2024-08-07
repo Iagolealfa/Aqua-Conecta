@@ -66,7 +66,7 @@ class CadastroView extends StatelessWidget {
               _buildTextField(
                 controller: viewModel.confirmPasswordController,
                 labelText: "Confirmar senha",
-                obscureText: viewModel.showPassword,
+                obscureText: viewModel.showConfirmPassword,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Confirme sua senha!';
@@ -76,9 +76,9 @@ class CadastroView extends StatelessWidget {
                   return null;
                 },
                 suffixIcon: GestureDetector(
-                  onTap: () => viewModel.togglePasswordVisibility(),
+                  onTap: () => viewModel.toggleConfirmPasswordVisibility(),
                   child: Icon(
-                    viewModel.showPassword ? Icons.visibility_off : Icons.visibility,
+                    viewModel.showConfirmPassword ? Icons.visibility_off : Icons.visibility,
                     color: const Color.fromRGBO(113, 153, 213, 1),
                   ),
                 ),
