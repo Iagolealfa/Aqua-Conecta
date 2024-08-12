@@ -1,3 +1,4 @@
+import 'package:aqua_conecta/models/check_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -79,7 +80,7 @@ class _AppDrawerState extends State<AppDrawer> {
               title: const Text("Sair da conta"),
               leading: const Icon(Icons.exit_to_app),
               onTap: () {
-                Navigator.of(context).pushNamed('/login');
+                sair();
               },
             ),
           ],
@@ -96,5 +97,25 @@ class _AppDrawerState extends State<AppDrawer> {
         email = usuario.email!;
       });
     }
+  }
+
+  sair() async {
+    await _firebaseAuth.signOut().then(
+          (user) => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CheckModel(),
+        ),
+      ),
+    );
+    Navigator.of(context).pushReplacementNamed('/login');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+            'Deslogado',
+            textAlign: TextAlign.center),
+        backgroundColor: Colors.grey,
+      ),
+    );
   }
 }
