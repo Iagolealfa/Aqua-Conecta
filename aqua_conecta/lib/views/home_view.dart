@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../components/drawer.dart';
+import '../services/locations.dart' as locations;
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -13,25 +14,43 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late GoogleMapController mapController;
-
   final LatLng _center = const LatLng(-8.017788, -34.944763);
 
-  void _onMapCreated(GoogleMapController controller) {
+  final Map<String, Marker> _markers = {};
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+    final googleOffices = await locations.getGoogleOffices();
+    setState(() {
+      _markers.clear();
+      for (final office in googleOffices.offices) {
+        final marker = Marker(
+          markerId: MarkerId(office.name),
+          position: LatLng(office.lat, office.lng),
+          infoWindow: InfoWindow(
+            title: office.name,
+            snippet: office.address,
+          ),
+        );
+        _markers[office.name] = marker;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(), // Adiciona o Drawer
+      drawer: const AppDrawer(),
       body: Stack(
         children: [
           GoogleMap(
             onMapCreated: _onMapCreated,
+            zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
               target: _center,
-              zoom: 11.0,
+              zoom: 13.0,
             ),
+            markers: _markers.values.toSet(), // Adiciona os marcadores
           ),
           Positioned(
             bottom: 20,
@@ -91,23 +110,6 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-    );
-  }
-}
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Maps Sample App',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const HomeView(),
     );
   }
 }

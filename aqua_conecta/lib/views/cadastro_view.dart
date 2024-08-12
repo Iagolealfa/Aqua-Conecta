@@ -1,9 +1,7 @@
-// lib/views/cadastro_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aqua_conecta/view_models/cadastro_view_model.dart';
 import 'package:aqua_conecta/components/large_button.dart';
-import 'package:aqua_conecta/views/login_view.dart';
 
 class CadastroView extends StatelessWidget {
   const CadastroView({Key? key}) : super(key: key);
@@ -39,13 +37,17 @@ class CadastroView extends StatelessWidget {
               _buildTextField(
                 controller: viewModel.nomeController,
                 labelText: "Usuário",
-                validator: (value) => value == null || value.isEmpty ? 'Informe seu usuário!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe seu usuário!'
+                    : null,
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: viewModel.emailController,
                 labelText: "Email",
-                validator: (value) => value == null || value.isEmpty ? 'Informe seu email!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe seu email!'
+                    : null,
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 10),
@@ -53,11 +55,15 @@ class CadastroView extends StatelessWidget {
                 controller: viewModel.passwordController,
                 labelText: "Senha",
                 obscureText: viewModel.showPassword,
-                validator: (value) => value == null || value.isEmpty ? 'Informe sua senha!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe sua senha!'
+                    : null,
                 suffixIcon: GestureDetector(
                   onTap: () => viewModel.togglePasswordVisibility(),
                   child: Icon(
-                    viewModel.showPassword ? Icons.visibility_off : Icons.visibility,
+                    viewModel.showPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: const Color.fromRGBO(113, 153, 213, 1),
                   ),
                 ),
@@ -78,7 +84,9 @@ class CadastroView extends StatelessWidget {
                 suffixIcon: GestureDetector(
                   onTap: () => viewModel.toggleConfirmPasswordVisibility(),
                   child: Icon(
-                    viewModel.showConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                    viewModel.showConfirmPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: const Color.fromRGBO(113, 153, 213, 1),
                   ),
                 ),
@@ -87,7 +95,8 @@ class CadastroView extends StatelessWidget {
               _buildTextField(
                 controller: viewModel.adressController,
                 labelText: "Endereço",
-                validator: (value) => null, // Se não precisar de validação, passe null
+                validator: (value) =>
+                    null, // Se não precisar de validação, passe null
               ),
               const SizedBox(height: 40),
               LargeButton(
