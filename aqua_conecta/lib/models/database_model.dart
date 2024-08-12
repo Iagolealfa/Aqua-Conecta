@@ -9,7 +9,7 @@ class OurDatabase {
   Future<void> createUser({
     required String nome,
     required String email,
-    String? endereco, // Torne o endereço opcional
+    required String endereco,
   }) async {
     final docUser = FirebaseFirestore.instance.collection('usuários').doc(email);
 
@@ -18,7 +18,7 @@ class OurDatabase {
       nome: nome,
       email: email,
       imageURL: '',
-      endereco: endereco ?? '', // Use uma string vazia se o endereço não for fornecido
+      endereco: endereco,
     );
 
     final json = user.toJson();

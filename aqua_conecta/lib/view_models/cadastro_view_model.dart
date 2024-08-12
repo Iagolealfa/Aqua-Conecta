@@ -1,8 +1,5 @@
-// lib/view_models/cadastro_view_model.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:aqua_conecta/models/user_model.dart';
 import 'package:aqua_conecta/models/database_model.dart';
 
 class CadastroViewModel extends ChangeNotifier {
@@ -13,7 +10,6 @@ class CadastroViewModel extends ChangeNotifier {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController adressController = TextEditingController();
   bool showPassword = true;
-  
   bool showConfirmPassword = true;
 
   Future<void> cadastrar(BuildContext context) async {
@@ -36,16 +32,18 @@ class CadastroViewModel extends ChangeNotifier {
       await userCredential.user!.updateDisplayName(nomeController.text);
 
       // Adiciona o usuário ao banco de dados
-      OurDatabase().createUser(
+      await OurDatabase().createUser(
         nome: nomeController.text,
         email: emailController.text,
-        endereco:  adressController.text,
+        endereco: adressController.text,
       );
 
-      //await FirebaseFirestore.instance.collection('usuários/${emailController.text}/conta').doc('informacoes').set({
-      //  'nomeUsuario': nomeController.text,
-      //  'email': emailController.text,
-      //});
+      // Limpa todos os campos
+      nomeController.clear();
+      emailController.clear();
+      passwordController.clear();
+      confirmPasswordController.clear();
+      adressController.clear();
 
       Navigator.pushReplacementNamed(context, '/login');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -58,7 +56,7 @@ class CadastroViewModel extends ChangeNotifier {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Senha fraca. Tente novamente'),
+            content: Text('Senha fraca. A senha deve ter no mínimo 6 caracteres.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -77,9 +75,9 @@ class CadastroViewModel extends ChangeNotifier {
     showPassword = !showPassword;
     notifyListeners();
   }
-  void toggleConfirmPasswordVisibility() {
-  showConfirmPassword = !showConfirmPassword;
-  notifyListeners();
-}
-}
 
+  void toggleConfirmPasswordVisibility() {
+    showConfirmPassword = !showConfirmPassword;
+    notifyListeners();
+  }
+}

@@ -13,6 +13,7 @@ class CadastroView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<CadastroViewModel>(context);
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       body: Container(
@@ -23,7 +24,7 @@ class CadastroView extends StatelessWidget {
         ),
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: Form(
-          key: GlobalKey<FormState>(),
+          key: formKey, // Definir a chave do Form
           child: ListView(
             children: <Widget>[
               const Text(
@@ -39,13 +40,17 @@ class CadastroView extends StatelessWidget {
               _buildTextField(
                 controller: viewModel.nomeController,
                 labelText: "Usuário",
-                validator: (value) => value == null || value.isEmpty ? 'Informe seu usuário!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe seu usuário!'
+                    : null,
               ),
               const SizedBox(height: 10),
               _buildTextField(
                 controller: viewModel.emailController,
                 labelText: "Email",
-                validator: (value) => value == null || value.isEmpty ? 'Informe seu email!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe seu email!'
+                    : null,
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 10),
@@ -53,11 +58,15 @@ class CadastroView extends StatelessWidget {
                 controller: viewModel.passwordController,
                 labelText: "Senha",
                 obscureText: viewModel.showPassword,
-                validator: (value) => value == null || value.isEmpty ? 'Informe sua senha!' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe sua senha!'
+                    : null,
                 suffixIcon: GestureDetector(
                   onTap: () => viewModel.togglePasswordVisibility(),
                   child: Icon(
-                    viewModel.showPassword ? Icons.visibility_off : Icons.visibility,
+                    viewModel.showPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: const Color.fromRGBO(113, 153, 213, 1),
                   ),
                 ),
@@ -78,7 +87,9 @@ class CadastroView extends StatelessWidget {
                 suffixIcon: GestureDetector(
                   onTap: () => viewModel.toggleConfirmPasswordVisibility(),
                   child: Icon(
-                    viewModel.showConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                    viewModel.showConfirmPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: const Color.fromRGBO(113, 153, 213, 1),
                   ),
                 ),
@@ -87,12 +98,18 @@ class CadastroView extends StatelessWidget {
               _buildTextField(
                 controller: viewModel.adressController,
                 labelText: "Endereço",
-                validator: (value) => null, // Se não precisar de validação, passe null
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Informe seu endereço!'
+                    : null,
               ),
               const SizedBox(height: 40),
               LargeButton(
                 texto: 'Cadastrar',
-                onPressed: () => viewModel.cadastrar(context),
+                onPressed: () {
+                  if (formKey.currentState?.validate() ?? false) {
+                    viewModel.cadastrar(context);
+                  }
+                },
               ),
               const SizedBox(height: 10),
               SizedBox(
