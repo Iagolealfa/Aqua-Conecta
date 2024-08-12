@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aqua_conecta/views/home_view.dart';
-import 'package:aqua_conecta/views/login_view.dart';
+import 'package:aqua_conecta/views/onboarding_view.dart';
 
 class CheckModel extends StatefulWidget {
   const CheckModel({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _CheckModelState extends State<CheckModel> {
           if (user == null) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LoginView()),
+              MaterialPageRoute(builder: (context) => const OnboardingView()),
             );
           } else {
             Navigator.pushReplacement(

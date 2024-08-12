@@ -1,4 +1,3 @@
-// lib/views/login_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
