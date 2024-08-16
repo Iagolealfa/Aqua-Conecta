@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CadastroViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        // Adicione outros providers se necessário
       ],
       child: SafeArea(
         child: MaterialApp(
