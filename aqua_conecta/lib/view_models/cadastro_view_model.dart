@@ -10,10 +10,10 @@ class CadastroViewModel extends ChangeNotifier {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController adressController = TextEditingController();
   bool showPassword = true;
-  
   bool showConfirmPassword = true;
 
   Future<void> cadastrar(BuildContext context) async {
@@ -28,7 +28,8 @@ class CadastroViewModel extends ChangeNotifier {
     }
 
     try {
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -39,7 +40,7 @@ class CadastroViewModel extends ChangeNotifier {
       OurDatabase().createUser(
         nome: nomeController.text,
         email: emailController.text,
-        endereco:  adressController.text,
+        endereco: adressController.text,
       );
 
       //await FirebaseFirestore.instance.collection('usuários/${emailController.text}/conta').doc('informacoes').set({
@@ -77,9 +78,9 @@ class CadastroViewModel extends ChangeNotifier {
     showPassword = !showPassword;
     notifyListeners();
   }
-  void toggleConfirmPasswordVisibility() {
-  showConfirmPassword = !showConfirmPassword;
-  notifyListeners();
-}
-}
 
+  void toggleConfirmPasswordVisibility() {
+    showConfirmPassword = !showConfirmPassword;
+    notifyListeners();
+  }
+}

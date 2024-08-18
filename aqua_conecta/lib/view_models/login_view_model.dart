@@ -7,13 +7,17 @@ class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool showPassword = true;
+  String? userId;
   Future<void> login(BuildContext context) async {
     try {
-      print("Tentando fazer login com email: ${emailController.text} e senha: ${passwordController.text}");
+      print(
+          "Tentando fazer login com email: ${emailController.text} e senha: ${passwordController.text}");
       await _firebaseAuth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+
+      userId = emailController.text;
 
       Navigator.pushReplacement(
         context,

@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../view_models/location_controller.dart'; // Importe sua classe DispAgua
+import 'package:intl/intl.dart';
+import '../view_models/location_controller.dart'; // Sua classe DispAgua
+import 'package:provider/provider.dart';
+import 'package:aqua_conecta/view_models/login_view_model.dart';
 
 class PopupAgua extends StatelessWidget {
   final DispAgua dispAgua;
@@ -11,6 +15,44 @@ class PopupAgua extends StatelessWidget {
     if (resposta) {
       await dispAgua.getPosition();
     }
+
+    DateTime dataHoraAtual = DateTime.now();
+    String dataHoraFormatada =
+        DateFormat('dd/MM/yyyy HH:mm:ss').format(dataHoraAtual);
+
+    final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    final String? userEmail = loginViewModel.userId;
+
+    if (userEmail != null) {
+      try {
+        final DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await FirebaseFirestore.instance
+                .collection('usuários')
+                .doc(userEmail)
+                .get();
+
+        final String? userName = userDoc.data()?['nome'];
+
+        if (userName != null) {
+          await FirebaseFirestore.instance.collection('disponibilidade').add({
+            'resposta': resposta,
+            'latitude': dispAgua.lat,
+            'longitude': dispAgua.long,
+            'data': dataHoraFormatada,
+            'usuario': userEmail,
+            'nome': userName,
+          });
+        } else {
+          print('O campo "nome" não foi encontrado no documento do usuário.');
+        }
+      } catch (e) {
+        print(
+            'Erro ao buscar o documento do usuário ou adicionar a disponibilidade: $e');
+      }
+    } else {
+      print('Usuário não logado ou ID do usuário não encontrado.');
+    }
+
     Navigator.of(context).pop({
       'resposta': resposta,
       'latitude': dispAgua.lat,
