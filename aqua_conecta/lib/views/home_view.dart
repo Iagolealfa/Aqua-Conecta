@@ -79,7 +79,9 @@ class _HomeViewState extends State<HomeView> {
             ),
             icon: icon,
           );
-          _markers[nome] = marker;
+          if (dataHora != null) {
+            _markers[dataHora] = marker;
+          }
         }
       }
     });
