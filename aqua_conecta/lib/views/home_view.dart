@@ -57,7 +57,8 @@ class _HomeViewState extends State<HomeView> {
       _markers.clear();
 
       for (final doc in querySnapshot.docs) {
-        final data = doc.data();
+        final data = doc.data() as Map<String,
+            dynamic>; // Assegura que 'data' é um Map<String, dynamic>
 
         final String? nome = data['nome'];
         final double? latitude = data['latitude'];
@@ -65,13 +66,19 @@ class _HomeViewState extends State<HomeView> {
         final String? dataHora = data['data'];
         final bool? disponibilidade = data['resposta'];
 
-        if (nome != null && latitude != null && longitude != null) {
+        if (nome != null &&
+            latitude != null &&
+            longitude != null &&
+            dataHora != null) {
           // Escolher o ícone com base na disponibilidade
           final BitmapDescriptor icon =
               disponibilidade == true ? pinAgua : pinFaltaAgua;
 
+          // Cria um ID único para cada marcador com base no nome e dataHora
+          final String markerId = '${nome}_${dataHora}';
+
           final marker = Marker(
-            markerId: MarkerId(nome),
+            markerId: MarkerId(markerId),
             position: LatLng(latitude, longitude),
             infoWindow: InfoWindow(
               title: nome,
@@ -79,9 +86,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             icon: icon,
           );
-          if (dataHora != null) {
-            _markers[dataHora] = marker;
-          }
+          _markers[markerId] = marker;
         }
       }
     });
