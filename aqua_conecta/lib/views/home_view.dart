@@ -8,6 +8,7 @@ import '../view_models/location_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
+import 'popup_qualidade_vazamento.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -19,10 +20,19 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => ReportPopup(),
+    );
+  }
+
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(-8.017788, -34.944763);
   final Map<String, Marker> _markers = {};
-  final DispAgua dispAgua = DispAgua(); // Instancia a classe DispAgua
+  final GetLocation dispAgua = GetLocation(); // Instancia a classe DispAgua
   Timer? _timer;
 
   @override
@@ -158,9 +168,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
-                  onTap: () {
-                    // Ação ao clicar no botão
-                  },
+                  onTap: () => _showBottomSheet(context),
                   child: Container(
                     width: 56,
                     height: 56,

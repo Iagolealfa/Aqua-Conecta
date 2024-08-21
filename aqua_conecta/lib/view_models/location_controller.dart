@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class DispAgua extends ChangeNotifier {
+class GetLocation extends ChangeNotifier {
   double lat = 0.0;
   double long = 0.0;
   String erro = '';
 
-  DispController() {
+  LocationController() {
     getPosition();
   }
 

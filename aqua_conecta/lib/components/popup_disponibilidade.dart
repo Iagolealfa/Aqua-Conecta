@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import '../view_models/location_controller.dart'; // Sua classe DispAgua
 import 'package:provider/provider.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 
 class PopupAgua extends StatelessWidget {
-  final DispAgua dispAgua;
+  final GetLocation dispAgua;
 
   const PopupAgua({Key? key, required this.dispAgua}) : super(key: key);
 
