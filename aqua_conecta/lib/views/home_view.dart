@@ -58,15 +58,19 @@ class _HomeViewState extends State<HomeView> {
         await _getMarkerIcon('assets/images/pin_falta_agua.png', size: 100);
     final BitmapDescriptor pinAgua =
         await _getMarkerIcon('assets/images/pin_agua.png', size: 100);
+    final BitmapDescriptor pinVazamento =
+        await _getMarkerIcon('assets/images/pin_vazamento.png', size: 100);
 
     // Obtemos os dados da coleção 'disponibilidade'
-    final querySnapshot =
+    final queryDisponibilidade =
         await FirebaseFirestore.instance.collection('disponibilidade').get();
+    final queryVazamento =
+        await FirebaseFirestore.instance.collection('vazamento').get();
 
     setState(() {
       _markers.clear();
 
-      for (final doc in querySnapshot.docs) {
+      for (final doc in queryDisponibilidade.docs) {
         final data = doc.data() as Map<String,
             dynamic>; // Assegura que 'data' é um Map<String, dynamic>
 
@@ -97,6 +101,36 @@ class _HomeViewState extends State<HomeView> {
             icon: icon,
           );
           _markers[markerId] = marker;
+        }
+        for (final doc in queryVazamento.docs) {
+          final data = doc.data() as Map<String,
+              dynamic>; // Assegura que 'data' é um Map<String, dynamic>
+
+          final String? nome = data['nome'];
+          final double? latitude = data['latitude'];
+          final double? longitude = data['longitude'];
+          final String? dataHora = data['data'];
+          final String? descricao = data['descrição'];
+
+          if (nome != null &&
+              latitude != null &&
+              longitude != null &&
+              dataHora != null &&
+              descricao != null) {
+            // Cria um ID único para cada marcador com base no nome e dataHora
+            final String markerId = '${nome}_${dataHora}';
+
+            final marker = Marker(
+              markerId: MarkerId(markerId),
+              position: LatLng(latitude, longitude),
+              infoWindow: InfoWindow(
+                title: nome,
+                snippet: (descricao + dataHora),
+              ),
+              icon: pinVazamento,
+            );
+            _markers[markerId] = marker;
+          }
         }
       }
     });
