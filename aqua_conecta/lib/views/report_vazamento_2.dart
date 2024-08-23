@@ -3,6 +3,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
 import 'package:aqua_conecta/components/large_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:aqua_conecta/view_models/login_view_model.dart';
+import 'package:provider/provider.dart';
+import 'report_vazamento_3.dart';
 
 class ReportDetailsPage extends StatefulWidget {
   final LatLng location;
@@ -45,19 +50,52 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     }
   }
 
-  void _submitReport() {
-    // Aqui você pode salvar os dados no Firebase
-    String description = _descriptionController.text;
-    // Substituir com a lógica para salvar a imagem e outros detalhes no Firebase.
-    // Exemplo:
-    // FirebaseFirestore.instance.collection('vazamento').add({
-    //   'latitude': widget.location.latitude,
-    //   'longitude': widget.location.longitude,
-    //   'description': description,
-    //   'image_path': _image?.path, // ou o upload da imagem para Firebase Storage
-    // });
+  void _submitReport() async {
+    final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    final String? userEmail = loginViewModel.userId;
 
-    Navigator.pushNamed(context, '/home');
+    String description = _descriptionController.text;
+    DateTime dataHoraAtual = DateTime.now();
+    String dataHoraFormatada =
+        DateFormat('dd/MM/yyyy HH:mm:ss').format(dataHoraAtual);
+
+    if (userEmail != null) {
+      try {
+        final DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await FirebaseFirestore.instance
+                .collection('usuários')
+                .doc(userEmail)
+                .get();
+
+        final String? userName = userDoc.data()?['nome'];
+
+        if (userName != null) {
+          await FirebaseFirestore.instance.collection('vazamento').add({
+            'descrição': description,
+            'latitude': widget.location.latitude,
+            'longitude': widget.location.longitude,
+            'image_vazamento': _image?.path,
+            'data': dataHoraFormatada,
+            'usuario': userEmail,
+            'nome': userName,
+          });
+        } else {
+          print('O campo "nome" não foi encontrado no documento do usuário.');
+        }
+      } catch (e) {
+        print(
+            'Erro ao buscar o documento do usuário ou adicionar o vazamento: $e');
+      }
+    } else {
+      print('Usuário não logado ou ID do usuário não encontrado.');
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReportSuccessPage(),
+      ),
+    );
   }
 
   @override
@@ -118,7 +156,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
             ),
             SizedBox(height: 80),
             LargeButton(
-              texto: 'Próximo',
+              texto: 'Enviar',
               onPressed: _submitReport,
             ),
           ],
