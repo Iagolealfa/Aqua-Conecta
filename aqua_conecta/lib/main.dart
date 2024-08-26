@@ -23,16 +23,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CadastroViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        // Adicione outros providers se necessário
+        ChangeNotifierProvider(create: (_) => AuthService()),
       ],
-      child: SafeArea(
-        child: MaterialApp(
-          initialRoute: '/checar',
-          routes: getAppRoutes(),
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+      child: MaterialApp(
+        initialRoute: '/checar',
+        routes: getAppRoutes(),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
       ),
     );

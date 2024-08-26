@@ -8,6 +8,7 @@ import 'views/relatorio_view.dart';
 import 'views/contato_view.dart';
 import 'views/suporte_view.dart';
 import 'views/sobre_view.dart';
+import 'views/perfil_view.dart';
 import 'models/check_model.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
@@ -21,6 +22,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/contato': (context) => const ContatoView(),
     '/suporte': (context) => const SuporteView(),
     '/sobre': (context) => const SobreView(),
+    '/perfil': (context) => const PerfilView(),
     '/checar': (context) => const CheckModel(),
   };
 }
