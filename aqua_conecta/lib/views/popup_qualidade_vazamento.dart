@@ -58,7 +58,9 @@ class ReportPopup extends StatelessWidget {
                             child:
                                 Image.asset('assets/images/pin_qualidade.png'),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/qualidade');
+                          },
                         ),
                         Text(
                           'Reportar Qualidade',
