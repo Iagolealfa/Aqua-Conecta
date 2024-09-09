@@ -9,6 +9,8 @@ import 'views/contato_view.dart';
 import 'views/suporte_view.dart';
 import 'views/sobre_view.dart';
 import 'models/check_model.dart';
+import 'views/report_vazamento.dart';
+import 'views/report_qualidade.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
@@ -22,5 +24,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/suporte': (context) => const SuporteView(),
     '/sobre': (context) => const SobreView(),
     '/checar': (context) => const CheckModel(),
+    '/vazamento_1': (context) => LocationSelectionPage(),
+    '/qualidade': (context) => ReportQualidade(),
   };
 }
