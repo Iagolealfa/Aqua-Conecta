@@ -1,3 +1,4 @@
+import 'package:aqua_conecta/models/check_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,16 +24,58 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       width: 260,
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF3555C5),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            const SizedBox(height: 55),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/perfil');
+              },
+              child: const Center(
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Color(0xFF729AD6),
+                  child: Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Color(0xFF3555C5),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/perfil');
+              },
+              child: const Center(
+                child: Text(
+                  "Ver/editar perfil",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 55),
             ListTile(
               dense: true,
-              title: const Text("Home"),
-              leading: const Icon(Icons.home),
+              title: const Text(
+                "Home",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.home,
+                color: Colors.white,
+              ),
               onTap: () {
                 Navigator.of(context).pushNamed('/home');
               },
@@ -40,8 +83,17 @@ class _AppDrawerState extends State<AppDrawer> {
             const SizedBox(height: 20),
             ListTile(
               dense: true,
-              title: const Text("Relatório"),
-              leading: const Icon(Icons.analytics),
+              title: const Text(
+                "Relatório",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.analytics,
+                color: Colors.white,
+              ),
               onTap: () {
                 Navigator.of(context).pushNamed('/relatorio');
               },
@@ -49,8 +101,17 @@ class _AppDrawerState extends State<AppDrawer> {
             const SizedBox(height: 20),
             ListTile(
               dense: true,
-              title: const Text("Contato"),
-              leading: const Icon(Icons.query_stats),
+              title: const Text(
+                "Contato",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.query_stats,
+                color: Colors.white,
+              ),
               onTap: () {
                 Navigator.of(context).pushNamed('/contato');
               },
@@ -58,8 +119,17 @@ class _AppDrawerState extends State<AppDrawer> {
             const SizedBox(height: 20),
             ListTile(
               dense: true,
-              title: const Text("Suporte"),
-              leading: const Icon(Icons.description),
+              title: const Text(
+                "Suporte",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.description,
+                color: Colors.white,
+              ),
               onTap: () {
                 Navigator.of(context).pushNamed('/suporte');
               },
@@ -67,8 +137,17 @@ class _AppDrawerState extends State<AppDrawer> {
             const SizedBox(height: 20),
             ListTile(
               dense: true,
-              title: const Text("Sobre"),
-              leading: const Icon(Icons.help),
+              title: const Text(
+                "Sobre",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.help,
+                color: Colors.white,
+              ),
               onTap: () {
                 Navigator.of(context).pushNamed('/sobre');
               },
@@ -76,10 +155,19 @@ class _AppDrawerState extends State<AppDrawer> {
             const SizedBox(height: 20),
             ListTile(
               dense: true,
-              title: const Text("Sair da conta"),
-              leading: const Icon(Icons.exit_to_app),
+              title: const Text(
+                "Sair da conta",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              leading: const Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ),
               onTap: () {
-                Navigator.of(context).pushNamed('/login');
+                sair();
               },
             ),
           ],
@@ -96,5 +184,25 @@ class _AppDrawerState extends State<AppDrawer> {
         email = usuario.email!;
       });
     }
+  }
+
+  sair() async {
+    await _firebaseAuth.signOut().then(
+          (user) => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CheckModel(),
+        ),
+      ),
+    );
+    Navigator.of(context).pushReplacementNamed('/login');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+            'Deslogado',
+            textAlign: TextAlign.center),
+        backgroundColor: Colors.grey,
+      ),
+    );
   }
 }

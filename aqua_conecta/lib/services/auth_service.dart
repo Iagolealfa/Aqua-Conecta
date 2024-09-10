@@ -28,9 +28,20 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
-  registrar(String email, String senha, String nome) async {
+  String? getUserName() {
+    return usuario?.displayName;
+  }
+
+  Future<void> registrar(String email, String senha, String nome) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+
+      // Atualizar o perfil do usuário com o nome
+      await userCredential.user?.updateDisplayName(nome);
+
       _getUser();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -41,7 +52,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  login(String email, String senha) async {
+  Future<void> login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
       _getUser();
@@ -54,7 +65,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  logout() async {
+  Future<void> logout() async {
     await _auth.signOut();
     _getUser();
   }

@@ -11,6 +11,7 @@ class CadastroView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<CadastroViewModel>(context);
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       body: Container(
@@ -21,7 +22,7 @@ class CadastroView extends StatelessWidget {
         ),
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: Form(
-          key: GlobalKey<FormState>(),
+          key: formKey, // Definir a chave do Form
           child: ListView(
             children: <Widget>[
               const Text(
@@ -101,7 +102,11 @@ class CadastroView extends StatelessWidget {
               const SizedBox(height: 40),
               LargeButton(
                 texto: 'Cadastrar',
-                onPressed: () => viewModel.cadastrar(context),
+                onPressed: () {
+                  if (formKey.currentState?.validate() ?? false) {
+                    viewModel.cadastrar(context);
+                  }
+                },
               ),
               const SizedBox(height: 10),
               SizedBox(

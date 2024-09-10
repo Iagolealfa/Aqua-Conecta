@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:aqua_conecta/firebase_options.dart';
 import 'package:aqua_conecta/view_models/cadastro_view_model.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
+import 'package:aqua_conecta/services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +23,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CadastroViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => AuthService()),
       ],
-      child: SafeArea(
-        child: MaterialApp(
-          initialRoute: '/onboarding',
-          routes: getAppRoutes(),
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+      child: MaterialApp(
+        initialRoute: '/checar',
+        routes: getAppRoutes(),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
       ),
     );
