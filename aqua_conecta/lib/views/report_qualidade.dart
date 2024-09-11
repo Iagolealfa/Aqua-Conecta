@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart'; // Import necessário
-import 'dart:io'; // Import para trabalhar com arquivos
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:aqua_conecta/view_models/login_view_model.dart';
+import 'package:provider/provider.dart';
+import 'report_qualidade_2.dart';
+import '../view_models/location_controller.dart';
 
 class ReportQualidade extends StatefulWidget {
   @override
@@ -8,14 +14,15 @@ class ReportQualidade extends StatefulWidget {
 }
 
 class _ReportQualidadeState extends State<ReportQualidade> {
+  final GetLocation dispAgua = GetLocation(); // Inicializando dispAgua
   // Variáveis para manter o estado dos checkboxes
   bool isTurvaSelected = false;
   bool isMauCheiroSelected = false;
   bool isOutrosSelected = false;
   File? _image; // Variável para armazenar a imagem capturada
   bool _isPickingImage = false; // Variável de controle
-
   // Método para capturar a imagem com a câmera
+
   Future<void> _pickImage() async {
     if (_isPickingImage) return; // Não faz nada se já está ativo
 
@@ -34,13 +41,64 @@ class _ReportQualidadeState extends State<ReportQualidade> {
         });
       }
     } catch (e) {
-      // Tratamento de exceções, se necessário
+      // Opcional: Tratar exceções
       print(e);
     } finally {
       setState(() {
         _isPickingImage = false;
       });
     }
+  }
+
+  Future<void> _handleClick(BuildContext context) async {
+    await dispAgua.getPosition(); // Obtém a posição
+
+    final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    final String? userEmail = loginViewModel.userId;
+
+    DateTime dataHoraAtual = DateTime.now();
+    String dataHoraFormatada =
+        DateFormat('dd/MM/yyyy HH:mm:ss').format(dataHoraAtual);
+
+    if (userEmail != null) {
+      try {
+        final DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await FirebaseFirestore.instance
+                .collection('usuários')
+                .doc(userEmail)
+                .get();
+
+        final String? userName = userDoc.data()?['nome'];
+
+        if (userName != null) {
+          await FirebaseFirestore.instance.collection('qualidade').add({
+            'latitude': dispAgua.lat, // Usando dispAgua para latitude
+            'longitude': dispAgua.long, // Usando dispAgua para longitude
+            'image_qualidade': _image?.path,
+            'MauCheiro': isMauCheiroSelected,
+            'Turva': isTurvaSelected,
+            'Outros': isOutrosSelected,
+            'data': dataHoraFormatada,
+            'usuario': userEmail,
+            'nome': userName,
+          });
+        } else {
+          print('O campo "nome" não foi encontrado no documento do usuário.');
+        }
+      } catch (e) {
+        print(
+            'Erro ao buscar o documento do usuário ou adicionar o report de qualidade: $e');
+      }
+    } else {
+      print('Usuário não logado ou ID do usuário não encontrado.');
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConcluidoScreen(),
+      ),
+    );
   }
 
   @override
@@ -67,9 +125,14 @@ class _ReportQualidadeState extends State<ReportQualidade> {
             ),
             SizedBox(height: 25),
             Center(
-              child: IconButton(
-                icon: Icon(Icons.add_a_photo, size: 70, color: Colors.blue),
-                onPressed: _pickImage, // Chama o método para capturar a imagem
+              child: GestureDetector(
+                onTap: _pickImage,
+                child: Column(
+                  children: [
+                    Icon(Icons.camera_alt, size: 100, color: Colors.blue),
+                    Text('Foto'),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -112,7 +175,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Lógica para enviar os dados
+                  _handleClick(context); // Envia os dados ao clicar no botão
                 },
                 child: Text('Enviar'),
               ),

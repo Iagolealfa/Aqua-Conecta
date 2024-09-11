@@ -12,6 +12,7 @@ import 'views/perfil_view.dart';
 import 'models/check_model.dart';
 import 'views/report_vazamento.dart';
 import 'views/report_qualidade.dart';
+import 'views/report_qualidade_2.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
@@ -28,5 +29,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/checar': (context) => const CheckModel(),
     '/vazamento_1': (context) => LocationSelectionPage(),
     '/qualidade': (context) => ReportQualidade(),
+    '/qualidade2': (context) => ConcluidoScreen()
   };
 }

@@ -133,7 +133,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
-            SizedBox(height: 120),
+            SizedBox(height: 25),
             GestureDetector(
               onTap: _pickImage,
               child: Column(
@@ -143,7 +143,16 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 ],
               ),
             ),
-            SizedBox(height: 70),
+            SizedBox(height: 20),
+            if (_image != null) // Verifica se há uma imagem capturada
+              Center(
+                child: Image.file(
+                  _image!,
+                  width: 200,
+                  height: 200,
+                ),
+              ),
+            SizedBox(height: 20),
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
