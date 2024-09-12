@@ -65,6 +65,22 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+Future<void> sendPasswordResetLink(String email) async {
+  try {
+    List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+    
+    if (signInMethods.isEmpty) {
+      throw 'Nenhum usuário encontrado com esse email.';
+    } else {
+      await _auth.sendPasswordResetEmail(email: email);
+    }
+  } on FirebaseAuthException catch (e) {
+    throw 'Erro ao enviar email. Verifique o email digitado';
+  } catch (e) {
+    throw e.toString();
+  }
+}
+
   Future<void> logout() async {
     await _auth.signOut();
     _getUser();

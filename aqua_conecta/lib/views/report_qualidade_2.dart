@@ -6,27 +6,37 @@ class ConcluidoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Qualidade'),
+        automaticallyImplyLeading: false, // Remove o botão de voltar padrão
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home',
+              (Route<dynamic> route) => false,
+            );
           },
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Ícone de confirmação
-            Icon(
-              Icons.done, // Ícone de check para indicar conclusão
-              size: 70,
-              color: Colors.blue, // Cor azul
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.horizontal_rule,
+                    size: 50, color: Color.fromARGB(254, 58, 57, 57)),
+                Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.blue,
+                  size: 40,
+                ),
+              ],
             ),
-            SizedBox(height: 30),
-            // Título
+            SizedBox(height: 100),
             Text(
               'Concluído!',
               style: TextStyle(
@@ -35,27 +45,38 @@ class ConcluidoScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 10),
-            // Mensagem de pontos
+            SizedBox(height: 40),
             Text(
               'Você ganhou 10 pontos por compartilhar essa informação.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.black),
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.blue,
+              ),
             ),
-            SizedBox(height: 40),
-            // Imagem (substitua pelo seu próprio ativo de imagem)
+            SizedBox(height: 20),
             Image.asset(
-              'assets/icon_quality.png', // Certifique-se de que o arquivo esteja na pasta correta
-              width: 100,
-              height: 100,
+              'assets/images/pin_qualidade.png',
+              height: 120,
+              width: 120,
             ),
-            SizedBox(height: 40),
-            // Botão OK
+            SizedBox(height: 120),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Volta para a tela anterior
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/home',
+                  (Route<dynamic> route) => false,
+                );
               },
               child: Text('Ok!'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
             ),
           ],
         ),

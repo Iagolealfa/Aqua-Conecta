@@ -23,14 +23,15 @@ class LoginView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 60),
               const Text(
-                'Login',
+                'Aqua Conecta',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color.fromRGBO(113, 153, 213, 1),
-                  fontFamily: 'Roboto',
-                  fontSize: 22,
-                ),
+                    color: Color.fromRGBO(113, 153, 213, 1),
+                    fontFamily: 'Roboto',
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
               SizedBox(
@@ -68,7 +69,8 @@ class LoginView extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                             fontSize: 18,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         style: const TextStyle(
                           fontFamily: 'Roboto',
