@@ -65,6 +65,14 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  Future<void> sendPasswordResetLink(String email)async{
+    try{
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
   Future<void> logout() async {
     await _auth.signOut();
     _getUser();

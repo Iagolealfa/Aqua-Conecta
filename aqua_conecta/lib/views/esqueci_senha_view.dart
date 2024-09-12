@@ -1,3 +1,4 @@
+import 'package:aqua_conecta/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
 
@@ -10,9 +11,13 @@ class EsqueciSenhaView extends StatefulWidget {
 }
 
 class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
+  final _auth = AuthService();
+  final _email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.only(
           top: 20,
@@ -55,7 +60,7 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
                 ),
               ),
               child: TextFormField(
-                //controller: _emailController,
+                controller: _email,
                 //autofocus: true,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
@@ -84,7 +89,10 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
             ),
             LargeButton(
               texto: 'Enviar',
-              onPressed: () {
+              onPressed: () async{
+                await _auth.sendPasswordResetLink(_email.text);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email enviado com sucesso!")));
+                Navigator.pop(context);
               },
             ),
             const SizedBox(
