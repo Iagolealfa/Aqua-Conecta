@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:aqua_conecta/components/large_button.dart';
 
 class EsqueciSenhaView extends StatefulWidget {
-
   const EsqueciSenhaView({super.key});
 
   @override
@@ -27,10 +26,11 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
         color: const Color.fromRGBO(255, 255, 255, 1),
         child: ListView(
           children: <Widget>[
-            const Text('Esqueceu a senha?',
+            const Text(
+              'Esqueceu a senha?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color:Color.fromRGBO(113, 153, 213, 1),
+                color: Color.fromRGBO(113, 153, 213, 1),
                 fontFamily: 'Roboto',
                 fontSize: 22,
               ),
@@ -38,10 +38,11 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
             const SizedBox(
               height: 60,
             ),
-            const Text('Digite o email cadastrado',
+            const Text(
+              'Digite o email cadastrado',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color:Colors.black,
+                color: Colors.black,
                 fontFamily: 'Roboto',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -89,10 +90,16 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
             ),
             LargeButton(
               texto: 'Enviar',
-              onPressed: () async{
-                await _auth.sendPasswordResetLink(_email.text);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email enviado com sucesso!")));
-                Navigator.pop(context);
+              onPressed: () async {
+                try {
+                  await _auth.sendPasswordResetLink(_email.text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Email enviado com sucesso!")));
+                  Navigator.pop(context);
+                } catch (e) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(e.toString())));
+                }
               },
             ),
             const SizedBox(
