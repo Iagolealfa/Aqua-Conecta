@@ -1,6 +1,7 @@
 import 'package:aqua_conecta/models/check_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../views/relatorio_view.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -95,7 +96,12 @@ class _AppDrawerState extends State<AppDrawer> {
                 color: Colors.white,
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/relatorio');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelatorioView(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 20),
@@ -189,18 +195,16 @@ class _AppDrawerState extends State<AppDrawer> {
   sair() async {
     await _firebaseAuth.signOut().then(
           (user) => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CheckModel(),
-        ),
-      ),
-    );
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CheckModel(),
+            ),
+          ),
+        );
     Navigator.of(context).pushReplacementNamed('/login');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text(
-            'Deslogado',
-            textAlign: TextAlign.center),
+        content: Text('Deslogado', textAlign: TextAlign.center),
         backgroundColor: Colors.grey,
       ),
     );

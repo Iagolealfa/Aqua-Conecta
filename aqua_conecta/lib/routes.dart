@@ -21,7 +21,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/esqueciSenhaEnviar': (context) => const EsqueciSenhaView(),
     '/home': (context) => const HomeView(),
     '/onboarding': (context) => const OnboardingView(),
-    '/relatorio': (context) => const RelatorioView(),
+    '/relatorio': (context) => RelatorioView(),
     '/contato': (context) => const ContatoView(),
     '/suporte': (context) => const SuporteView(),
     '/sobre': (context) => const SobreView(),
