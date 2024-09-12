@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:aqua_conecta/view_models/login_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RelatorioView extends StatefulWidget {
   @override
@@ -6,41 +9,64 @@ class RelatorioView extends StatefulWidget {
 }
 
 class _RelatorioViewState extends State<RelatorioView> {
-  String dropdownValue =
-      'Selecione o tipo de relatório'; // Valor inicial do dropdown
+  String dropdownValue1 = 'Selecione o tipo de relatório';
 
-  List<Map<String, dynamic>> reports = [
-    {
-      'rua': 'R. Miguel Couto',
-      'area': '05',
-      'data': '30/01',
-      'status': 'Disponível'
-    },
-    {
-      'rua': 'R. Miguel Couto',
-      'area': '05',
-      'data': '31/01',
-      'status': 'Disponível'
-    },
-    {
-      'rua': 'R. Miguel Couto',
-      'area': '05',
-      'data': '01/02',
-      'status': 'Indisponível'
-    },
-    {
-      'rua': 'R. Miguel Couto',
-      'area': '05',
-      'data': '02/02',
-      'status': 'Disponível'
-    },
-    {
-      'rua': 'R. Miguel Couto',
-      'area': '05',
-      'data': '03/02',
-      'status': 'Disponível'
-    },
-  ];
+  List<Map<String, dynamic>> reports = [];
+  /*Future<void> _createlist() async {
+    final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    final String? userEmail = loginViewModel.userId;
+
+    setState(() {
+      reports = [];
+    });
+
+    String collectionPath;
+    Map<String, dynamic> reportFields;
+
+    switch (dropdownValue1) {
+      case 'Disponibilidade de água':
+        collectionPath = 'disponibilidade';
+        reportFields = {'rua': 'rua', 'data': 'data', 'status': 'resposta'};
+        break;
+      case 'Vazamento':
+        collectionPath = 'vazamento';
+        reportFields = {'rua': 'rua', 'data': 'data'};
+        break;
+      case 'Qualidade da água':
+        collectionPath = 'qualidade';
+        reportFields = {'rua': 'rua', 'data': 'data', 'aspecto': 'aspecto'};
+        break;
+      default:
+        // Handle the case where dropdownValue1 doesn't match any expected values
+        return;
+    }
+
+    try {
+      final collectionRef =
+          FirebaseFirestore.instance.collection(collectionPath);
+      final querySnapshot =
+          await collectionRef.where('userEmail', isEqualTo: userEmail).get();
+
+      final List<Map<String, dynamic>> fetchedReports =
+          querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        final report = {};
+        for (var key in reportFields.keys) {
+          if (data.containsKey(key)) {
+            report[key] = data[key];
+          }
+        }
+        return report;
+      }).toList();
+
+      setState(() {
+        reports = fetchedReports;
+      });
+    } catch (e) {
+      // Handle any errors that might occur
+      print('Error fetching reports: $e');
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +76,16 @@ class _RelatorioViewState extends State<RelatorioView> {
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
-        // Corrige o problema de overflow vertical
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               DropdownButton<String>(
-                value: dropdownValue,
+                value: dropdownValue1,
                 onChanged: (String? newValue) {
                   setState(() {
-                    dropdownValue = newValue!;
+                    dropdownValue1 = newValue!;
                   });
                 },
                 items: <String>[
@@ -77,17 +102,33 @@ class _RelatorioViewState extends State<RelatorioView> {
               ),
               SizedBox(height: 20),
               ListView.builder(
-                shrinkWrap: true, // Corrige problemas de tamanho no ListView
-                physics:
-                    NeverScrollableScrollPhysics(), // Desativa o scroll interno do ListView
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: reports.length,
                 itemBuilder: (context, index) {
                   var report = reports[index];
-                  return ListTile(
-                    title: Text(report['rua']),
-                    subtitle: Text(
-                        'Área: ${report['area']}  Data: ${report['data']}  Status: ${report['status']}'),
-                  );
+
+                  // Aqui a condição para modificar a estrutura
+                  if (dropdownValue1 == 'Disponibilidade de água') {
+                    return ListTile(
+                      title: Text(report['rua']),
+                      subtitle: Text(
+                          'Data: ${report['data']}  Status: ${report['status']}'),
+                    );
+                  } else if (dropdownValue1 == 'Vazamento') {
+                    return ListTile(
+                      title: Text(report['rua']),
+                      subtitle: Text('Data: ${report['data']}'),
+                      leading: Icon(Icons.warning, color: Colors.red),
+                    );
+                  } else if (dropdownValue1 == 'Qualidade da água') {
+                    return ListTile(
+                      title: Text(report['rua']),
+                      subtitle: Text(
+                          'Data: ${report['data']} Aspecto da água: ${report['aspecto']}'),
+                      leading: Icon(Icons.water, color: Colors.blue),
+                    );
+                  }
                 },
               ),
               SizedBox(height: 20),
