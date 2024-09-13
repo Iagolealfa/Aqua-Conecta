@@ -105,6 +105,54 @@ class _RelatorioViewState extends State<RelatorioView> {
     }
   }
 
+  void _showLoadingPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Impede o pop-up de ser fechado ao tocar fora dele
+      builder: (BuildContext context) {
+        // Exibe o ícone de carregamento
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 20),
+                Text("Baixando relatório..."),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    // Espera por 3 segundos e depois exibe a mensagem de sucesso
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.of(context).pop(); // Fecha o pop-up de carregamento
+
+      // Exibe o pop-up de sucesso
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sucesso"),
+            content: Text("Relatório baixado com sucesso!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fecha o pop-up de sucesso
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,7 +246,7 @@ class _RelatorioViewState extends State<RelatorioView> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Implementar função para baixar PDF
+                    _showLoadingPopup(context);
                   },
                   child: Text('Baixar PDF'),
                   style: ElevatedButton.styleFrom(
