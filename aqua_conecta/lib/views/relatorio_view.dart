@@ -58,8 +58,7 @@ class _RelatorioViewState extends State<RelatorioView> {
     try {
       final List<Map<String, dynamic>> fetchedReports =
           querySnapshot.docs.map((doc) {
-        final data = Map<String, dynamic>.from(
-            doc.data() as Map); // Casting para Map<String, dynamic>
+        final data = Map<String, dynamic>.from(doc.data() as Map);
         final report = <String, dynamic>{};
         for (var key in reportFields.keys) {
           if (data.containsKey(key)) {
@@ -69,12 +68,40 @@ class _RelatorioViewState extends State<RelatorioView> {
         return report;
       }).toList();
 
+      // Ordenar a lista com base na data
+      fetchedReports.sort((a, b) {
+        final dateA = _parseDate(a['data']);
+        final dateB = _parseDate(b['data']);
+        return dateA.compareTo(dateB);
+      });
+
       setState(() {
         reports = fetchedReports;
       });
     } catch (e) {
       // Handle any errors that might occur
       print('Error fetching reports: $e');
+    }
+  }
+
+  DateTime _parseDate(String dateStr) {
+    try {
+      final parts = dateStr.split(' ');
+      final dateParts = parts[0].split('/');
+      final timeParts = parts[1].split(':');
+
+      final day = int.parse(dateParts[0]);
+      final month = int.parse(dateParts[1]);
+      final year = int.parse(dateParts[2]);
+      final hour = int.parse(timeParts[0]);
+      final minute = int.parse(timeParts[1]);
+      final second = int.parse(timeParts[2]);
+
+      return DateTime(year, month, day, hour, minute, second);
+    } catch (e) {
+      // Handle any errors in date parsing
+      print('Error parsing date: $e');
+      return DateTime.now(); // Retorna a data atual em caso de erro
     }
   }
 
@@ -158,7 +185,7 @@ class _RelatorioViewState extends State<RelatorioView> {
                         'Data: ${report['data']} $aspecto',
                       ),
                       leading: Image.asset(
-                        'assets/images/pin_agua.png',
+                        'assets/images/pin_qualidade.png',
                         width: 40,
                         height: 40,
                       ),

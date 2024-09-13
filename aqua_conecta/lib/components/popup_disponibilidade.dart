@@ -13,9 +13,8 @@ class PopupAgua extends StatelessWidget {
 
   Future<void> _handleClick(BuildContext context, bool resposta) async {
     final GeocodingService _geocodingService = GeocodingService();
-    if (resposta) {
-      await dispAgua.getPosition();
-    }
+
+    await dispAgua.getPosition();
 
     DateTime dataHoraAtual = DateTime.now();
     String dataHoraFormatada =
