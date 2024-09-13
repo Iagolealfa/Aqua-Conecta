@@ -14,7 +14,7 @@ class _SuporteViewState extends State<SuporteView> {
   final List<Map<String, String>> faq = [
     {
       "pergunta": "Como reportar vazamento/qualidade da água?",
-      "resposta": "Para reportar um vazamento ou problemas de qualidade da água, vá para a seção de relatórios (Símbolo de ""+"") escolha entre as opções de relatório e preencha o formulário adequado."
+      "resposta": "Para reportar um vazamento ou problemas de qualidade da água, vá para a seção de relatórios (Símbolo de \"+\") escolha entre as opções de relatório e preencha o formulário adequado."
     },
     {
       "pergunta": "O que significam os ícones no mapa?",
@@ -30,22 +30,22 @@ class _SuporteViewState extends State<SuporteView> {
     },
     {
       "pergunta": "Como reportar disponibilidade da água?",
-      "resposta": "Use o botão de ""gota"" para reportar a disponibilidade de água em sua área atual."
+      "resposta": "Use o botão de \"gota\" para reportar a disponibilidade de água em sua área atual."
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(), // Adiciona o Drawer
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(
           'Suporte',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Color(0xFF729AD6)),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.blue),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
       ),
       body: Padding(
@@ -101,7 +101,7 @@ class _SuporteViewState extends State<SuporteView> {
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
-                // Implementar lógica de enviar mensagem
+                Navigator.of(context).pushNamed('/contato');
               },
               icon: const Icon(Icons.message, color: Colors.white),
               label: const Text('Envie uma mensagem', style: TextStyle(color: Colors.white)),
@@ -113,7 +113,7 @@ class _SuporteViewState extends State<SuporteView> {
                 ),
               ),
             ),
-            const SizedBox(height: 30), // Espaço inferior para evitar corte
+            const SizedBox(height: 30),
           ],
         ),
       ),

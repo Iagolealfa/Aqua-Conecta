@@ -1,11 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yourcompany.aqua_conecta">
 
-    <!-- Permissões necessárias -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true" 
@@ -61,5 +56,13 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+        <intent>
+        <action android:name="android.intent.action.SENDTO" />
+        <data android:scheme="mailto" />
+        </intent>
+    </queries>
 
 </manifest>
