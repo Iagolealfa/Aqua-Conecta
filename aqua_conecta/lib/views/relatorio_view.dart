@@ -120,7 +120,7 @@ class _RelatorioViewState extends State<RelatorioView> {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 20),
-                Text("Baixando relatório..."),
+                Text("Download em andamento..."),
               ],
             ),
           ),
@@ -142,7 +142,11 @@ class _RelatorioViewState extends State<RelatorioView> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Fecha o pop-up de sucesso
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                    (Route<dynamic> route) => false,
+                  ); // Fecha o pop-up de sucesso
                 },
                 child: Text("OK"),
               ),
