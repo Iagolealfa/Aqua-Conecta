@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/location_geocoder.dart';
 
 class RelatorioView extends StatefulWidget {
   @override
@@ -9,10 +10,11 @@ class RelatorioView extends StatefulWidget {
 }
 
 class _RelatorioViewState extends State<RelatorioView> {
-  String dropdownValue1 = 'Selecione o tipo de relatório';
+  String dropdownValue1 = 'Disponibilidade de água';
 
   List<Map<String, dynamic>> reports = [];
-  /*Future<void> _createlist() async {
+
+  Future<void> _createlist() async {
     final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
     final String? userEmail = loginViewModel.userId;
 
@@ -41,7 +43,11 @@ class _RelatorioViewState extends State<RelatorioView> {
         return;
     }
 
-    try {
+    final collectionRef = FirebaseFirestore.instance.collection(collectionPath);
+    final querySnapshot =
+        await collectionRef.where('usuario', isEqualTo: userEmail).get();
+  }
+  /*try {
       final collectionRef =
           FirebaseFirestore.instance.collection(collectionPath);
       final querySnapshot =
@@ -135,6 +141,7 @@ class _RelatorioViewState extends State<RelatorioView> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    _createlist();
                     // Implementar função para baixar PDF
                   },
                   child: Text('Baixar PDF'),

@@ -7,6 +7,7 @@ import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'report_qualidade_2.dart';
 import '../view_models/location_controller.dart';
+import '../services/location_geocoder.dart';
 
 class ReportQualidade extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class ReportQualidade extends StatefulWidget {
 }
 
 class _ReportQualidadeState extends State<ReportQualidade> {
+  final GeocodingService _geocodingService = GeocodingService();
   final GetLocation dispAgua = GetLocation(); // Inicializando dispAgua
   // Variáveis para manter o estado dos checkboxes
   bool isTurvaSelected = false;
@@ -69,7 +71,8 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 .get();
 
         final String? userName = userDoc.data()?['nome'];
-
+        String endereco = await _geocodingService.getAddressFromCoordinates(
+            dispAgua.lat, dispAgua.long);
         if (userName != null) {
           await FirebaseFirestore.instance.collection('qualidade').add({
             'latitude': dispAgua.lat, // Usando dispAgua para latitude
@@ -81,6 +84,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
             'data': dataHoraFormatada,
             'usuario': userEmail,
             'nome': userName,
+            'endereco': endereco
           });
         } else {
           print('O campo "nome" não foi encontrado no documento do usuário.');

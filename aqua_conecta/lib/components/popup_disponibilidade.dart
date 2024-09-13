@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../view_models/location_controller.dart'; // Sua classe DispAgua
 import 'package:provider/provider.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
+import '../services/location_geocoder.dart';
 
 class PopupAgua extends StatelessWidget {
   final GetLocation dispAgua;
@@ -11,6 +12,7 @@ class PopupAgua extends StatelessWidget {
   const PopupAgua({Key? key, required this.dispAgua}) : super(key: key);
 
   Future<void> _handleClick(BuildContext context, bool resposta) async {
+    final GeocodingService _geocodingService = GeocodingService();
     if (resposta) {
       await dispAgua.getPosition();
     }
@@ -31,7 +33,8 @@ class PopupAgua extends StatelessWidget {
                 .get();
 
         final String? userName = userDoc.data()?['nome'];
-
+        String endereco = await _geocodingService.getAddressFromCoordinates(
+            dispAgua.lat, dispAgua.long);
         if (userName != null) {
           await FirebaseFirestore.instance.collection('disponibilidade').add({
             'resposta': resposta,
@@ -40,6 +43,7 @@ class PopupAgua extends StatelessWidget {
             'data': dataHoraFormatada,
             'usuario': userEmail,
             'nome': userName,
+            'endereco': endereco
           });
         } else {
           print('O campo "nome" não foi encontrado no documento do usuário.');

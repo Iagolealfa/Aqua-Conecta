@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'report_vazamento_3.dart';
+import '../services/location_geocoder.dart';
 
 class ReportDetailsPage extends StatefulWidget {
   final LatLng location;
@@ -19,6 +20,7 @@ class ReportDetailsPage extends StatefulWidget {
 }
 
 class _ReportDetailsPageState extends State<ReportDetailsPage> {
+  final GeocodingService _geocodingService = GeocodingService();
   File? _image;
   final TextEditingController _descriptionController = TextEditingController();
   bool _isPickingImage = false; // Variável de controle
@@ -68,7 +70,8 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 .get();
 
         final String? userName = userDoc.data()?['nome'];
-
+        String endereco = await _geocodingService.getAddressFromCoordinates(
+            widget.location.latitude, widget.location.longitude);
         if (userName != null) {
           await FirebaseFirestore.instance.collection('vazamento').add({
             'descrição': description,
@@ -78,6 +81,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
             'data': dataHoraFormatada,
             'usuario': userEmail,
             'nome': userName,
+            'endereco': endereco
           });
         } else {
           print('O campo "nome" não foi encontrado no documento do usuário.');
