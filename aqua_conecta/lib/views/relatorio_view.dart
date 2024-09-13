@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../services/location_geocoder.dart';
 
 class RelatorioView extends StatefulWidget {
   @override
@@ -10,7 +9,7 @@ class RelatorioView extends StatefulWidget {
 }
 
 class _RelatorioViewState extends State<RelatorioView> {
-  String dropdownValue1 = 'Disponibilidade de água';
+  String dropdownValue1 = 'Selecione o tipo de relatório';
 
   List<Map<String, dynamic>> reports = [];
 
@@ -28,35 +27,40 @@ class _RelatorioViewState extends State<RelatorioView> {
     switch (dropdownValue1) {
       case 'Disponibilidade de água':
         collectionPath = 'disponibilidade';
-        reportFields = {'rua': 'rua', 'data': 'data', 'status': 'resposta'};
+        reportFields = {
+          'endereco': 'endereco',
+          'data': 'data',
+          'resposta': 'resposta'
+        };
         break;
       case 'Vazamento':
         collectionPath = 'vazamento';
-        reportFields = {'rua': 'rua', 'data': 'data'};
+        reportFields = {'endereco': 'endereco', 'data': 'data'};
         break;
       case 'Qualidade da água':
         collectionPath = 'qualidade';
-        reportFields = {'rua': 'rua', 'data': 'data', 'aspecto': 'aspecto'};
+        reportFields = {
+          'endereco': 'endereco',
+          'data': 'data',
+          'Turva': false,
+          'MauCheiro': false,
+          'Outros': false
+        };
         break;
       default:
-        // Handle the case where dropdownValue1 doesn't match any expected values
         return;
     }
 
     final collectionRef = FirebaseFirestore.instance.collection(collectionPath);
     final querySnapshot =
         await collectionRef.where('usuario', isEqualTo: userEmail).get();
-  }
-  /*try {
-      final collectionRef =
-          FirebaseFirestore.instance.collection(collectionPath);
-      final querySnapshot =
-          await collectionRef.where('userEmail', isEqualTo: userEmail).get();
 
+    try {
       final List<Map<String, dynamic>> fetchedReports =
           querySnapshot.docs.map((doc) {
-        final data = doc.data();
-        final report = {};
+        final data = Map<String, dynamic>.from(
+            doc.data() as Map); // Casting para Map<String, dynamic>
+        final report = <String, dynamic>{};
         for (var key in reportFields.keys) {
           if (data.containsKey(key)) {
             report[key] = data[key];
@@ -72,7 +76,7 @@ class _RelatorioViewState extends State<RelatorioView> {
       // Handle any errors that might occur
       print('Error fetching reports: $e');
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +96,7 @@ class _RelatorioViewState extends State<RelatorioView> {
                 onChanged: (String? newValue) {
                   setState(() {
                     dropdownValue1 = newValue!;
+                    _createlist(); // Atualiza a lista quando o valor do dropdown mudar
                   });
                 },
                 items: <String>[
@@ -114,34 +119,58 @@ class _RelatorioViewState extends State<RelatorioView> {
                 itemBuilder: (context, index) {
                   var report = reports[index];
 
-                  // Aqui a condição para modificar a estrutura
                   if (dropdownValue1 == 'Disponibilidade de água') {
                     return ListTile(
-                      title: Text(report['rua']),
+                      title: Text(report['endereco']),
                       subtitle: Text(
-                          'Data: ${report['data']}  Status: ${report['status']}'),
+                          'Data: ${report['data']}  Status: ${report['resposta'] ? 'Disponível' : 'Indisponível'}'),
+                      leading: Image.asset(
+                        report['resposta']
+                            ? 'assets/images/pin_agua.png'
+                            : 'assets/images/pin_falta_agua.png',
+                        width: 40,
+                        height: 40,
+                      ),
                     );
                   } else if (dropdownValue1 == 'Vazamento') {
                     return ListTile(
-                      title: Text(report['rua']),
+                      title: Text(report['endereco']),
                       subtitle: Text('Data: ${report['data']}'),
-                      leading: Icon(Icons.warning, color: Colors.red),
+                      leading: Image.asset('assets/images/pin_vazamento.png',
+                          width: 40, height: 40),
                     );
                   } else if (dropdownValue1 == 'Qualidade da água') {
+                    String aspecto = 'Aspecto da água: ';
+                    if (report['Outros'] == true) {
+                      aspecto += 'Outros';
+                    } else {
+                      List<String> aspectos = [];
+                      if (report['Turva'] == true) aspectos.add('Turva');
+                      if (report['MauCheiro'] == true)
+                        aspectos.add('Mau cheiro');
+
+                      aspecto += aspectos.join(' e ');
+                    }
+
                     return ListTile(
-                      title: Text(report['rua']),
+                      title: Text(report['endereco']),
                       subtitle: Text(
-                          'Data: ${report['data']} Aspecto da água: ${report['aspecto']}'),
-                      leading: Icon(Icons.water, color: Colors.blue),
+                        'Data: ${report['data']} $aspecto',
+                      ),
+                      leading: Image.asset(
+                        'assets/images/pin_agua.png',
+                        width: 40,
+                        height: 40,
+                      ),
                     );
                   }
+                  return Container(); // Para garantir que sempre retorne um widget
                 },
               ),
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    _createlist();
                     // Implementar função para baixar PDF
                   },
                   child: Text('Baixar PDF'),
