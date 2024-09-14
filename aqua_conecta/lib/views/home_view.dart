@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import 'popup_qualidade_vazamento.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(-8.017788, -34.944763);
+  LatLng _center = const LatLng(-8.017788, -34.944763);
   final Map<String, Marker> _markers = {};
   final GetLocation dispAgua = GetLocation(); // Instancia a classe DispAgua
   Timer? _timer;
@@ -50,6 +51,19 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     await _updateMarkers(); // Atualiza os marcadores quando o mapa é criado
+  }
+
+  Future<LatLng> _useCurrentLocation() async {
+    try {
+      await dispAgua.getPosition();
+      setState(() {
+        _center = LatLng(dispAgua.lat, dispAgua.long);
+      });
+      return _center!;
+    } catch (e) {
+      print(e);
+      return _center ?? LatLng(-8.017788, -34.944763); // Valor padrão
+    }
   }
 
   Future<void> _updateMarkers() async {
@@ -159,6 +173,17 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    // Recebe os argumentos passados
+    final LatLng? newCenter =
+        ModalRoute.of(context)!.settings.arguments as LatLng?;
+
+    // Atualiza o valor de _center se os argumentos não forem nulos
+    if (newCenter != null) {
+      setState(() {
+        _center = newCenter;
+      });
+    }
+
     return Scaffold(
       drawer: const AppDrawer(),
       body: Stack(
@@ -167,7 +192,9 @@ class _HomeViewState extends State<HomeView> {
             onMapCreated: _onMapCreated,
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
-              target: _center,
+              target: _center ??
+                  LatLng(-8.017788,
+                      -34.944763), // Valor padrão se _center for nulo
               zoom: 13.0,
             ),
             markers: _markers.values.toSet(), // Adiciona os marcadores
@@ -216,6 +243,34 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () async {
+                    // Chama a função para obter a localização atual
+                    LatLng currentLocation = await _useCurrentLocation();
+
+                    // Após obter a localização, navega de volta para a tela Home
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/home',
+                      (Route<dynamic> route) => false,
+                      arguments:
+                          currentLocation, // Passa a localização como argumento
+                    );
+                  },
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF2544B4),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.location_on,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
