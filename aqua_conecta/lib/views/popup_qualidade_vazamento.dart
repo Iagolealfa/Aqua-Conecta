@@ -14,8 +14,8 @@ class ReportPopup extends StatelessWidget {
         minChildSize: 0.2,
         builder: (context, scrollController) {
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20),
@@ -40,7 +40,7 @@ class ReportPopup extends StatelessWidget {
                             Navigator.pushNamed(context, '/vazamento_1');
                           },
                         ),
-                        Text(
+                        const Text(
                           'Reportar Vazamento',
                           textAlign: TextAlign.center,
                         ),
@@ -62,7 +62,7 @@ class ReportPopup extends StatelessWidget {
                             Navigator.pushNamed(context, '/qualidade');
                           },
                         ),
-                        Text(
+                        const Text(
                           'Reportar Qualidade',
                           textAlign: TextAlign.center,
                         ),

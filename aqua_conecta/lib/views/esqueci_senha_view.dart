@@ -94,7 +94,7 @@ class _EsqueciSenhaViewState extends State<EsqueciSenhaView> {
                 try {
                   await _auth.sendPasswordResetLink(_email.text);
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Email enviado com sucesso!")));
+                      const SnackBar(content: Text("Email enviado com sucesso!")));
                   Navigator.pop(context);
                 } catch (e) {
                   ScaffoldMessenger.of(context)

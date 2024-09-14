@@ -91,7 +91,7 @@ class _ContatoViewState extends State<ContatoView> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            content: Text('Erro ao enviar a mensagem'),
+            content: const Text('Erro ao enviar a mensagem'),
             actions: [
               Center(
                 child: SizedBox(
@@ -185,9 +185,11 @@ class _ContatoViewState extends State<ContatoView> {
                 const SizedBox(height: 8),
                 _buildTextField('Último Nome', _lastNameController, false),
                 const SizedBox(height: 8),
-                _buildTextField('E-Mail', _emailController, true, readOnly: true, isEmail: true),
+                _buildTextField('E-Mail', _emailController, true,
+                    readOnly: true, isEmail: true),
                 const SizedBox(height: 8),
-                _buildTextField('Mensagem', _messageController, true, maxLines: 4),
+                _buildTextField('Mensagem', _messageController, true,
+                    maxLines: 4),
                 const SizedBox(height: 30),
                 Center(
                   child: SizedBox(
@@ -220,7 +222,9 @@ class _ContatoViewState extends State<ContatoView> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, bool isRequired, {int maxLines = 1, bool readOnly = false, bool isEmail = false}) {
+  Widget _buildTextField(
+      String label, TextEditingController controller, bool isRequired,
+      {int maxLines = 1, bool readOnly = false, bool isEmail = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -250,12 +254,14 @@ class _ContatoViewState extends State<ContatoView> {
           readOnly: readOnly,
           decoration: InputDecoration(
             filled: true,
-            fillColor: isEmail ? const Color(0xFFB0B0B0) : const Color(0xFFD6D6D6),
+            fillColor:
+                isEmail ? const Color(0xFFB0B0B0) : const Color(0xFFD6D6D6),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide.none,
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           ),
           validator: (value) {
             if (isRequired && (value == null || value.isEmpty)) {

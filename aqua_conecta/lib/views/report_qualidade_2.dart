@@ -5,10 +5,10 @@ class ConcluidoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Qualidade'),
+        title: const Text('Qualidade'),
         automaticallyImplyLeading: false, // Remove o botão de voltar padrão
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
               context,
@@ -23,8 +23,8 @@ class ConcluidoScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.horizontal_rule,
@@ -36,8 +36,8 @@ class ConcluidoScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 100),
-            Text(
+            const SizedBox(height: 100),
+            const Text(
               'Concluído!',
               style: TextStyle(
                 fontSize: 24,
@@ -45,8 +45,8 @@ class ConcluidoScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 40),
-            Text(
+            const SizedBox(height: 40),
+            const Text(
               'Você ganhou 10 pontos por compartilhar essa informação.',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -54,13 +54,13 @@ class ConcluidoScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Image.asset(
               'assets/images/pin_qualidade.png',
               height: 120,
               width: 120,
             ),
-            SizedBox(height: 120),
+            const SizedBox(height: 120),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -69,9 +69,9 @@ class ConcluidoScreen extends StatelessWidget {
                   (Route<dynamic> route) => false,
                 );
               },
-              child: Text('Ok!'),
+              child: const Text('Ok!'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                 backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
