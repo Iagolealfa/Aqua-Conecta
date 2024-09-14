@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/drawer.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -160,16 +161,25 @@ class _RelatorioViewState extends State<RelatorioView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
-        title: Text('Relatórios'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Relatório',
+          style: TextStyle(color: Color(0xFF729AD6)),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 50),
               DropdownButton<String>(
                 value: dropdownValue1,
                 onChanged: (String? newValue) {
