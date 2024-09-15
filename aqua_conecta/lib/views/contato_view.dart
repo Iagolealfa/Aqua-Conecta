@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:aqua_conecta/components/large_button.dart';
 
 class ContatoView extends StatefulWidget {
   const ContatoView({Key? key}) : super(key: key);
@@ -189,29 +190,11 @@ class _ContatoViewState extends State<ContatoView> {
                 const SizedBox(height: 8),
                 _buildTextField('Mensagem', _messageController, true, maxLines: 4),
                 const SizedBox(height: 30),
-                Center(
-                  child: SizedBox(
-                    width: 160,
-                    height: 54,
-                    child: ElevatedButton(
-                      onPressed: _submitForm,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2544B4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                      ),
-                      child: const Text(
-                        'Enviar Mensagem',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
+                LargeButton(
+                  texto: 'Enviar Mensagem',
+                  onPressed: _submitForm              ,
                 ),
+
               ],
             ),
           ),

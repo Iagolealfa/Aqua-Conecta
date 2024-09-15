@@ -3,6 +3,7 @@ import '../components/drawer.dart';
 import 'package:aqua_conecta/view_models/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aqua_conecta/components/large_button.dart';
 
 class RelatorioView extends StatefulWidget {
   @override
@@ -258,16 +259,12 @@ class _RelatorioViewState extends State<RelatorioView> {
               ),
               SizedBox(height: 20),
               Center(
-                child: ElevatedButton(
+                child:LargeButton(
+                  texto: 'Baixar pdf',
                   onPressed: () {
                     _showLoadingPopup(context);
-                  },
-                  child: Text('Baixar PDF'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
+                  }
+                  ,
                 ),
               ),
             ],

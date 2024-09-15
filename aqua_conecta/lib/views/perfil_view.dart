@@ -391,7 +391,7 @@ class _PerfilViewState extends State<PerfilView>
                     ),
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

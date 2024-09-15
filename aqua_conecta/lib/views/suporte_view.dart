@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/drawer.dart';
+import 'package:aqua_conecta/components/large_button.dart';
 
 class SuporteView extends StatefulWidget {
   const SuporteView({Key? key}) : super(key: key);
@@ -65,6 +66,7 @@ Widget build(BuildContext context) {
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
+                fontFamily: 'Roboto'
             ),
             textAlign: TextAlign.center,
           ),
@@ -106,34 +108,13 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 16, color: Colors.blue),
           ),
           const SizedBox(height: 10),
-          Center(
-            child: SizedBox(
-              width: 160,
-              height: 54,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/contato');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2544B4),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0, horizontal: 12), // Centralização do texto
-                ),
-                child: const Text(
-                  'Enviar uma mensagem',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+          LargeButton(
+              texto: 'Enviar uma mensagem',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/contato');
+              },
           ),
-          const SizedBox(height: 30),
+              const SizedBox(height: 30),
         ],
       ),
     ),
