@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'report_qualidade_2.dart';
 import '../view_models/location_controller.dart';
 import '../services/location_geocoder.dart';
+import 'package:aqua_conecta/components/large_button.dart';
 
 class ReportQualidade extends StatefulWidget {
   @override
@@ -109,7 +110,12 @@ class _ReportQualidadeState extends State<ReportQualidade> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Qualidade da Água'),
+        title: Text('Qualidade da Água',style: TextStyle(
+          color: Color.fromARGB(255, 114, 154, 214),
+        ),
+        ),
+        centerTitle: true,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -119,21 +125,23 @@ class _ReportQualidadeState extends State<ReportQualidade> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.location_on, size: 50, color: Colors.blue),
+                Icon(Icons.location_on, size: 50, color: Color.fromARGB(255, 114, 154, 214)),
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
             Text(
               'Adicione uma foto e selecione o(s) problema(s)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 114, 154, 214)),
             ),
+
             SizedBox(height: 25),
             Center(
               child: GestureDetector(
                 onTap: _pickImage,
                 child: Column(
                   children: [
-                    Icon(Icons.camera_alt, size: 100, color: Colors.blue),
+                    Icon(Icons.camera_alt, size: 100, color: Color.fromARGB(255, 114, 154, 214)),
                     Text('Foto'),
                   ],
                 ),
@@ -145,7 +153,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 child: Image.file(
                   _image!,
                   width: 200,
-                  height: 200,
+                  height: 70,
                 ),
               ),
             CheckboxListTile(
@@ -175,13 +183,15 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Center(
-              child: ElevatedButton(
+              child:
+              LargeButton(
+                texto: 'Enviar',
                 onPressed: () {
                   _handleClick(context); // Envia os dados ao clicar no botão
-                },
-                child: Text('Enviar'),
+                }
+                ,
               ),
             ),
           ],

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:aqua_conecta/components/large_button.dart';
 
 class ConcluidoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Qualidade'),
+        title: Text('Qualidade',
+        style: TextStyle(
+        color: Color.fromARGB(255, 114, 154, 214))),
+        centerTitle: true,
         automaticallyImplyLeading: false, // Remove o botão de voltar padrão
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -28,21 +32,21 @@ class ConcluidoScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.horizontal_rule,
-                    size: 50, color: Color.fromARGB(254, 58, 57, 57)),
+                    size: 50, color: Colors.green),
                 Icon(
                   Icons.check_circle_outline,
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 114, 154, 214),
                   size: 40,
                 ),
               ],
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 80),
             Text(
               'Concluído!',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue,
+                color: Color.fromARGB(255, 114, 154, 214),
               ),
             ),
             SizedBox(height: 40),
@@ -51,7 +55,7 @@ class ConcluidoScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.blue,
+                color: Color.fromARGB(255, 114, 154, 214),
               ),
             ),
             SizedBox(height: 20),
@@ -60,23 +64,17 @@ class ConcluidoScreen extends StatelessWidget {
               height: 120,
               width: 120,
             ),
-            SizedBox(height: 120),
-            ElevatedButton(
+            SizedBox(height: 50),
+            LargeButton(
+              texto: 'Ok',
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/home',
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: Text('Ok!'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
+                      (Route<dynamic> route) => false,
+                ); // Envia os dados ao clicar no botão
+              }
+              ,
             ),
           ],
         ),
