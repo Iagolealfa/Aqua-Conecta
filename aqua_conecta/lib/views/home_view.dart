@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import 'popup_qualidade_vazamento.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -192,8 +191,8 @@ class _HomeViewState extends State<HomeView> {
             onMapCreated: _onMapCreated,
             zoomControlsEnabled: false,
             initialCameraPosition: const CameraPosition(
-              target: LatLng(
-                  -8.017788, -34.944763), // Valor padrão se _center for nulo
+              target: LatLng(-8.017788,
+                      -34.944763), // Valor padrão se _center for nulo
               zoom: 13.0,
             ),
             markers: _markers.values.toSet(), // Adiciona os marcadores
