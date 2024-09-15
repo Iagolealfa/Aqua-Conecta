@@ -10,31 +10,16 @@ class GetLocation extends ChangeNotifier {
     getPosition();
   }
 
-  // getPosition() async {
-  //   try {
-  //     Position posicao = await _posicaoAtual();
-  //     lat = posicao.latitude;
-  //     long = posicao.longitude;
-  //   } catch (e) {
-  //     erro = e.toString();
-  //   }
-  //   notifyListeners();
-  // }
-
-  Future<void> getPosition() async {
+  getPosition() async {
     try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      lat = position.latitude;
-      long = position.longitude;
-      print('Latitude: $lat, Longitude: $long');
-
+      Position posicao = await _posicaoAtual();
+      lat = posicao.latitude;
+      long = posicao.longitude;
     } catch (e) {
-      print("Erro ao obter localização: $e");
+      erro = e.toString();
     }
+    notifyListeners();
   }
-
 
   Future<Position> _posicaoAtual() async {
     LocationPermission permissao;

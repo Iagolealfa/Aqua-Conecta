@@ -51,9 +51,6 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     await _updateMarkers(); // Atualiza os marcadores quando o mapa é criado
-    LatLng currentLocation = await _useCurrentLocation();
-    mapController.animateCamera(CameraUpdate.newLatLng(currentLocation));
-    await _updateMarkers();
   }
 
   Future<LatLng> _useCurrentLocation() async {
