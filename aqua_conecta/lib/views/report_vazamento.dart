@@ -80,7 +80,9 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vazamento'),
+        title: Text('Vazamento',
+          style: TextStyle(color: Color.fromARGB(255, 114, 154, 214)
+          ),),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -97,41 +99,46 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
             Text(
               'Informe o local',
               style: TextStyle(
-                  fontSize: 18, color: Color.fromARGB(255, 6, 134, 238)),
+                  fontSize: 18, color: Color.fromARGB(255, 114, 154, 214)),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.location_on, size: 50, color: Colors.blue),
+                Icon(Icons.location_on, size: 50, color: Color.fromARGB(255, 114, 154, 214)
+                ),
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
-            SizedBox(height: 150),
+            SizedBox(height: 60),
             GestureDetector(
               onTap: _selectOnMap,
               child: Column(
                 children: [
-                  Icon(Icons.map, size: 100, color: Colors.blue),
-                  Text('Selecione o mapa e adicione o endereço do vazamento.'),
+                  Icon(Icons.map, size: 100, color: Color.fromARGB(255, 114, 154, 214)
+                  ),
+                  Text('Selecione o mapa e adicione o endereço do vazamento.',
+                    style: TextStyle(color: Color.fromARGB(255, 114, 154, 214))),
                 ],
               ),
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 40),
             GestureDetector(
               onTap: _useCurrentLocation,
               child: Column(
                 children: [
                   Text(
                     'Utilizar localização atual',
-                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                    style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 114, 154, 214)
+                    ),
                   ),
-                  Icon(Icons.my_location, size: 50, color: Colors.blue),
+                  Icon(Icons.my_location, size: 50, color: Color.fromARGB(255, 114, 154, 214)
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 80),
+            SizedBox(height: 40),
             LargeButton(
               texto: 'Próximo',
               onPressed: selectedLocation != null ? _nextStep : null,

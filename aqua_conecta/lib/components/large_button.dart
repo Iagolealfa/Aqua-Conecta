@@ -14,7 +14,7 @@ class LargeButton extends StatelessWidget {
       height: 54,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(36, 68, 179, 1),
+        color: Color.fromARGB(255, 37, 68, 180),
         borderRadius: BorderRadius.all(
           Radius.circular(30),
         ),

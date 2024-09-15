@@ -106,7 +106,8 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vazamento'),
+        title: Text('Vazamento',
+            style: TextStyle(color: Color.fromARGB(255, 114, 154, 214))),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -125,15 +126,15 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
             Text(
               'Adicione informações',
               style: TextStyle(
-                  fontSize: 18, color: Color.fromARGB(255, 24, 10, 218)),
+                  fontSize: 18, color: Color.fromARGB(255, 114, 154, 214)),
             ),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.horizontal_rule,
-                    size: 50, color: Color.fromARGB(254, 58, 57, 57)),
-                Icon(Icons.description, size: 50, color: Colors.blue),
+                    size: 50, color: Colors.green),
+                Icon(Icons.description, size: 50, color: Color.fromARGB(255, 114, 154, 214)),
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
@@ -142,7 +143,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               onTap: _pickImage,
               child: Column(
                 children: [
-                  Icon(Icons.camera_alt, size: 100, color: Colors.blue),
+                  Icon(Icons.camera_alt, size: 100, color:  Color.fromARGB(255, 114, 154, 214)),
                   Text('Foto do vazamento'),
                 ],
               ),
@@ -167,7 +168,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               ),
               maxLines: 3,
             ),
-            SizedBox(height: 80),
+            SizedBox(height: 60),
             LargeButton(
               texto: 'Enviar',
               onPressed: _submitReport,
