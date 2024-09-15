@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
       ],
       child: MaterialApp(
-        initialRoute: '/checar',
+        initialRoute: '/perfil',
         routes: getAppRoutes(),
         theme: ThemeData(
           primarySwatch: Colors.blue,
