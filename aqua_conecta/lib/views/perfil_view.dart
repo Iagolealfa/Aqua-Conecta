@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../components/drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aqua_conecta/services/auth_service.dart';
 
 class PerfilView extends StatefulWidget {
@@ -17,45 +15,14 @@ class PerfilView extends StatefulWidget {
   State<PerfilView> createState() => _PerfilViewState();
 }
 
-class _PerfilViewState extends State<PerfilView>
-    with SingleTickerProviderStateMixin {
+class _PerfilViewState extends State<PerfilView> with SingleTickerProviderStateMixin {
   bool isAvailable = true;
   bool _isContactVisible = false;
-  bool _isLoading = false;
   String imageURL = '';
   final ImagePicker _picker = ImagePicker();
-  final _telefoneController = TextEditingController();
-  final _bioController = TextEditingController();
-  final _firebaseAuth = FirebaseAuth.instance;
-  String nome = '';
-  String email = '';
-  String _telefone = '';
-
-  @override
-  void initState() {
-    super.initState();
-    getUser();
-    _loadProfileImage();
-  }
-
-  Future<void> _loadProfileImage() async {
-    if (email.isEmpty) return;
-
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('usuários')
-        .doc(email)
-        .get();
-
-    if (userDoc.exists) {
-      String? url = userDoc.get('imageURL');
-
-      if (url != null) {
-        setState(() {
-          imageURL = url;
-        });
-      }
-    }
-  }
+  TextEditingController _telefoneController = TextEditingController();
+  TextEditingController _bioController = TextEditingController();
+  TextEditingController _aboutController = TextEditingController();
 
   void _toggleAvailability() {
     setState(() {
@@ -70,36 +37,19 @@ class _PerfilViewState extends State<PerfilView>
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    setState(() {
-      _isLoading = false;
-    });
-
     XFile? pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile == null) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    Reference perfilRoot = FirebaseStorage.instance.ref().child('/foto_perfil');
+    Reference perfilImage = perfilRoot.child("img1");
 
-    if (email.isEmpty) {
-      await getUser();
+    try {
+      await perfilImage.putFile(File(pickedFile.path));
+      imageURL = await perfilImage.getDownloadURL();
+    } catch (error) {
+      print("Não foi possível enviar a imagem");
     }
-
-    Reference perfilRoot = FirebaseStorage.instance.ref().child('foto_perfil');
-    Reference perfilImage = perfilRoot.child("img_$email");
-
-    await perfilImage.putFile(File(pickedFile.path));
-    String imageURL = await perfilImage.getDownloadURL();
-
-    await FirebaseFirestore.instance.collection('usuários').doc(email).update({
-      'imageURL': imageURL,
-    });
-
-    setState(() {
-      this.imageURL = imageURL;
-      _isLoading = false;
-    });
   }
 
   void _showProfilePictureOptions() {
@@ -162,169 +112,50 @@ class _PerfilViewState extends State<PerfilView>
     );
   }
 
-  void _showEditPopup(String type) {
-    if (type == 'phone') {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: const Center(child: Text('Editar telefone')),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                const Text(
-                  'Telefone',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16),
-                ),
-                TextField(
-                  controller: _telefoneController,
-                  decoration: const InputDecoration(
-                    hintText: 'Digite seu telefone',
-                    hintStyle: TextStyle(fontSize: 14),
-                  ),
-                  keyboardType: TextInputType.phone,
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  'Cancelar',
-                  style: TextStyle(color: Color(0xFF2544B4)),
-                ),
+  void _showEditPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Center(child: Text('Editar bio')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              const Text(
+                'Bio',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 16),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  String telefone = _telefoneController.text.trim();
-                  if (telefone.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('O telefone não pode estar vazio'),
-                      ),
-                    );
-                    return;
-                  }
-                  try {
-                    if (email.isNotEmpty) {
-                      await FirebaseFirestore.instance
-                          .collection('usuários')
-                          .doc(email)
-                          .update({'telefone': telefone});
-                      setState(() {
-                        _telefone = telefone;
-                      });
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Telefone salvo com sucesso'),
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    print("Erro ao salvar o telefone: $e");
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Erro ao salvar o telefone'),
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2544B4), // Cor de fundo
-                ),
-                child: const Text(
-                  'Salvar',
-                  style: TextStyle(color: Colors.white), // Cor do texto
+              TextField(
+                controller: _bioController,
+                decoration: const InputDecoration(
+                  hintText: 'Digite sua bio',
+                  hintStyle: TextStyle(fontSize: 14),
                 ),
               ),
             ],
-          );
-        },
-      );
-    } else if (type == 'bio') {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: const Center(child: Text('Editar bio')),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                const Text(
-                  'Bio',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16),
-                ),
-                TextField(
-                  controller: _bioController,
-                  decoration: const InputDecoration(
-                    hintText: 'Digite sua bio',
-                    hintStyle: TextStyle(fontSize: 14),
-                  ),
-                ),
-              ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  'Cancelar',
-                  style: TextStyle(color: Color(0xFF2544B4)),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  String bio = _bioController.text.trim();
-                  try {
-                    if (email.isNotEmpty) {
-                      await FirebaseFirestore.instance
-                          .collection('usuários')
-                          .doc(email)
-                          .update({'bio': bio});
-                      setState(() {
-                        // Atualiza o valor da bio na interface
-                      });
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Bio salva com sucesso'),
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    print("Erro ao salvar a bio: $e");
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Erro ao salvar a bio'),
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2544B4), // Cor de fundo
-                ),
-                child: const Text(
-                  'Salvar',
-                  style: TextStyle(color: Colors.white), // Cor do texto
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
+            ElevatedButton(
+              onPressed: () {
+                // Aqui você pode salvar as informações
+                Navigator.of(context).pop();
+              },
+              child: const Text('Salvar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -348,28 +179,17 @@ class _PerfilViewState extends State<PerfilView>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                GestureDetector(
-                  onTap: _showProfilePictureOptions,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: const Color(0xFF729AD6),
-                    backgroundImage:
-                        imageURL.isNotEmpty ? NetworkImage(imageURL) : null,
-                    child: imageURL.isEmpty
-                        ? const Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.white,
-                          )
-                        : null,
-                  ),
+            GestureDetector(
+              onTap: _showProfilePictureOptions,
+              child: const CircleAvatar(
+                radius: 50,
+                backgroundColor: Color(0xFF729AD6),
+                child: Icon(
+                  Icons.person,
+                  size: 60,
+                  color: Colors.white,
                 ),
-                if (_isLoading) // Exibe o indicador de carregamento se estiver carregando
-                  const CircularProgressIndicator(),
-              ],
+              ),
             ),
             const SizedBox(height: 16),
             Text(
@@ -467,31 +287,37 @@ class _PerfilViewState extends State<PerfilView>
                     child: Row(
                       children: [
                         Expanded(
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Telefone: ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                _telefone,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
+                              const SizedBox(height: 8),
+                              RichText(
+                                text: const TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Telefone: ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '98999-9999',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                            width: 10), // Espaço fixo entre o texto e o ícone
                         GestureDetector(
-                          onTap: () => _showEditPopup('phone'),
+                          onTap: _showEditPopup,
                           child: const Icon(
                             Icons.edit,
                             color: Colors.black54,
@@ -514,17 +340,17 @@ class _PerfilViewState extends State<PerfilView>
                 children: [
                   Row(
                     children: [
-                      const Text(
+                      Text(
                         'Bio:',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Color(0xFF729AD6),
+                          color: Colors.blue,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Spacer(),
                       GestureDetector(
-                        onTap: () => _showEditPopup('bio'),
+                        onTap: _showEditPopup,
                         child: const Icon(
                           Icons.edit,
                           color: Colors.black54,
@@ -534,12 +360,10 @@ class _PerfilViewState extends State<PerfilView>
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _bioController.text.isEmpty
-                        ? 'Sem bio'
-                        : _bioController.text,
-                    style: const TextStyle(
+                    _bioController.text.isEmpty ? 'Habitante na Rua Miguel Couto' : _bioController.text,
+                    style: TextStyle(
                       fontSize: 16,
-                      color: Color(0xFF729AD6),
+                      color: Colors.blue,
                     ),
                   ),
                 ],
@@ -550,30 +374,5 @@ class _PerfilViewState extends State<PerfilView>
         ),
       ),
     );
-  }
-
-  Future<void> getUser() async {
-    User? usuario = _firebaseAuth.currentUser;
-    if (usuario != null) {
-      setState(() {
-        nome = usuario.displayName ?? '';
-        email = usuario.email ?? '';
-      });
-
-      try {
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('usuários')
-            .doc(email)
-            .get();
-        if (userDoc.exists) {
-          setState(() {
-            _telefone = userDoc.get('telefone') ?? '';
-            _bioController.text = userDoc.get('bio') ?? ''; // Carrega a bio
-          });
-        }
-      } catch (error) {
-        print("Erro ao carregar dados do usuário: $error");
-      }
-    }
   }
 }

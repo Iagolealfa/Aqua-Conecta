@@ -13,12 +13,12 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
   LatLng? selectedLocation;
 
   void _selectOnMap() async {
-    const LatLng initialLocation = LatLng(-8.017788, -34.944763);
+    final LatLng initialLocation = LatLng(-8.017788, -34.944763);
 
     LatLng? result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MapScreen(initialLocation: initialLocation),
+        builder: (context) => MapScreen(initialLocation: initialLocation),
       ),
     );
 
@@ -48,14 +48,14 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Sucesso'),
-          content: const Text('Localização obtida com sucesso!'),
+          title: Text('Sucesso'),
+          content: Text('Localização obtida com sucesso!'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o pop-up
               },
-              child: const Text('OK'),
+              child: Text('OK'),
             ),
           ],
         );
@@ -80,10 +80,10 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vazamento'),
+        title: Text('Vazamento'),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushNamed(context, '/home');
           },
@@ -94,13 +94,13 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Informe o local',
               style: TextStyle(
                   fontSize: 18, color: Color.fromARGB(255, 6, 134, 238)),
             ),
-            const SizedBox(height: 20),
-            const Row(
+            SizedBox(height: 20),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.location_on, size: 50, color: Colors.blue),
@@ -108,20 +108,20 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
-            const SizedBox(height: 150),
+            SizedBox(height: 150),
             GestureDetector(
               onTap: _selectOnMap,
-              child: const Column(
+              child: Column(
                 children: [
                   Icon(Icons.map, size: 100, color: Colors.blue),
                   Text('Selecione o mapa e adicione o endereço do vazamento.'),
                 ],
               ),
             ),
-            const SizedBox(height: 100),
+            SizedBox(height: 100),
             GestureDetector(
               onTap: _useCurrentLocation,
-              child: const Column(
+              child: Column(
                 children: [
                   Text(
                     'Utilizar localização atual',
@@ -131,7 +131,7 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 80),
+            SizedBox(height: 80),
             LargeButton(
               texto: 'Próximo',
               onPressed: selectedLocation != null ? _nextStep : null,
@@ -146,13 +146,13 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
 class MapScreen extends StatelessWidget {
   final LatLng initialLocation;
 
-  const MapScreen({required this.initialLocation});
+  MapScreen({required this.initialLocation});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selecione a localização'),
+        title: Text('Selecione a localização'),
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(

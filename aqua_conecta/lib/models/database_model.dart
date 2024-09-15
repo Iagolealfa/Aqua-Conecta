@@ -26,20 +26,20 @@ class OurDatabase {
   }
 
   Future<void> updateUserImageURL(String imageUrl) async {
-    final user = FirebaseAuth.instance.currentUser;
+    final _user = FirebaseAuth.instance.currentUser;
     final docUser = FirebaseFirestore.instance
         .collection('usuários')
-        .doc(user?.email);
+        .doc(_user?.email);
     docUser.update({
       'imageURL': imageUrl,
     });
   }
 
   Future<void> updateUserName(String nome) async {
-    final user = FirebaseAuth.instance.currentUser;
+    final _user = FirebaseAuth.instance.currentUser;
     final docUser = FirebaseFirestore.instance
         .collection('usuários')
-        .doc(user?.email);
+        .doc(_user?.email);
     docUser.update({
       'nome': nome,
     });

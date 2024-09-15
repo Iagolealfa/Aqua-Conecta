@@ -113,9 +113,9 @@ class _RelatorioViewState extends State<RelatorioView> {
           false, // Impede o pop-up de ser fechado ao tocar fora dele
       builder: (BuildContext context) {
         // Exibe o ícone de carregamento
-        return const Dialog(
+        return Dialog(
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -130,7 +130,7 @@ class _RelatorioViewState extends State<RelatorioView> {
     );
 
     // Espera por 3 segundos e depois exibe a mensagem de sucesso
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pop(); // Fecha o pop-up de carregamento
 
       // Exibe o pop-up de sucesso
@@ -138,8 +138,8 @@ class _RelatorioViewState extends State<RelatorioView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Sucesso"),
-            content: const Text("Relatório baixado com sucesso!"),
+            title: Text("Sucesso"),
+            content: Text("Relatório baixado com sucesso!"),
             actions: [
               TextButton(
                 onPressed: () {
@@ -149,7 +149,7 @@ class _RelatorioViewState extends State<RelatorioView> {
                     (Route<dynamic> route) => false,
                   ); // Fecha o pop-up de sucesso
                 },
-                child: const Text("OK"),
+                child: Text("OK"),
               ),
             ],
           );
@@ -200,10 +200,10 @@ class _RelatorioViewState extends State<RelatorioView> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               ListView.builder(
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: reports.length,
                 itemBuilder: (context, index) {
                   var report = reports[index];
@@ -256,17 +256,17 @@ class _RelatorioViewState extends State<RelatorioView> {
                   return Container(); // Para garantir que sempre retorne um widget
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     _showLoadingPopup(context);
                   },
-                  child: const Text('Baixar PDF'),
+                  child: Text('Baixar PDF'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                 ),
               ),

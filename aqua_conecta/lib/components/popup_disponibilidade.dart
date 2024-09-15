@@ -12,7 +12,7 @@ class PopupAgua extends StatelessWidget {
   const PopupAgua({Key? key, required this.dispAgua}) : super(key: key);
 
   Future<void> _handleClick(BuildContext context, bool resposta) async {
-    final GeocodingService geocodingService = GeocodingService();
+    final GeocodingService _geocodingService = GeocodingService();
 
     await dispAgua.getPosition();
 
@@ -32,7 +32,7 @@ class PopupAgua extends StatelessWidget {
                 .get();
 
         final String? userName = userDoc.data()?['nome'];
-        String endereco = await geocodingService.getAddressFromCoordinates(
+        String endereco = await _geocodingService.getAddressFromCoordinates(
             dispAgua.lat, dispAgua.long);
         if (userName != null) {
           await FirebaseFirestore.instance.collection('disponibilidade').add({
@@ -68,17 +68,17 @@ class PopupAgua extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      contentPadding: const EdgeInsets.all(16.0),
+      contentPadding: EdgeInsets.all(16.0),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.help_outline,
             color: Colors.blue,
             size: 50,
           ),
-          const SizedBox(height: 16.0),
-          const Text(
+          SizedBox(height: 16.0),
+          Text(
             "Tem água na sua casa?",
             style: TextStyle(
               fontSize: 18,
@@ -86,8 +86,8 @@ class PopupAgua extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8.0),
-          const Text(
+          SizedBox(height: 8.0),
+          Text(
             "Informe se há água disponível",
             style: TextStyle(
               fontSize: 14,
@@ -95,20 +95,20 @@ class PopupAgua extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Cor de fundo
-                  side: const BorderSide(color: Colors.blue), // Borda azul
+                  side: BorderSide(color: Colors.blue), // Borda azul
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
                 onPressed: () => _handleClick(context, true),
-                child: const Text(
+                child: Text(
                   "Sim",
                   style: TextStyle(color: Colors.blue),
                 ),
@@ -121,7 +121,7 @@ class PopupAgua extends StatelessWidget {
                   ),
                 ),
                 onPressed: () => _handleClick(context, false),
-                child: const Text(
+                child: Text(
                   "Não",
                   style: TextStyle(color: Colors.white),
                 ),

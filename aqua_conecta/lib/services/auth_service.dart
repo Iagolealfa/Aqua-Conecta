@@ -34,8 +34,7 @@ class AuthService extends ChangeNotifier {
 
   Future<void> registrar(String email, String senha, String nome) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: senha,
       );
@@ -66,22 +65,21 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> sendPasswordResetLink(String email) async {
-    try {
-      List<String> signInMethods =
-          await _auth.fetchSignInMethodsForEmail(email);
-
-      if (signInMethods.isEmpty) {
-        throw 'Nenhum usuário encontrado com esse email.';
-      } else {
-        await _auth.sendPasswordResetEmail(email: email);
-      }
-    } on FirebaseAuthException {
-      throw 'Erro ao enviar email. Verifique o email digitado';
-    } catch (e) {
-      throw 'Ocorreu um erro ao processar a solicitação';
+Future<void> sendPasswordResetLink(String email) async {
+  try {
+    List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+    
+    if (signInMethods.isEmpty) {
+      throw 'Nenhum usuário encontrado com esse email.';
+    } else {
+      await _auth.sendPasswordResetEmail(email: email);
     }
+  } on FirebaseAuthException catch (e) {
+    throw 'Erro ao enviar email. Verifique o email digitado';
+  } catch (e) {
+    throw e.toString();
   }
+}
 
   Future<void> logout() async {
     await _auth.signOut();

@@ -5,10 +5,10 @@ class ReportSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vazamento'),
+        title: Text('Vazamento'),
         automaticallyImplyLeading: false, // Remove o botão de voltar padrão
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
               context,
@@ -23,8 +23,8 @@ class ReportSuccessPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-            const Row(
+            SizedBox(height: 20),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.horizontal_rule,
@@ -38,8 +38,8 @@ class ReportSuccessPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 100),
-            const Text(
+            SizedBox(height: 100),
+            Text(
               'Concluído!',
               style: TextStyle(
                 fontSize: 24,
@@ -47,8 +47,8 @@ class ReportSuccessPage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            const SizedBox(height: 40),
-            const Text(
+            SizedBox(height: 40),
+            Text(
               'Você ganhou 10 pontos por compartilhar essa informação.',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -56,13 +56,13 @@ class ReportSuccessPage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Image.asset(
               'assets/images/pin_vazamento.png',
               height: 120,
               width: 120,
             ),
-            const SizedBox(height: 120),
+            SizedBox(height: 120),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -71,14 +71,14 @@ class ReportSuccessPage extends StatelessWidget {
                   (Route<dynamic> route) => false,
                 );
               },
+              child: Text('Ok!'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                 backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: const Text('Ok!'),
             ),
           ],
         ),

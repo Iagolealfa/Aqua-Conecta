@@ -1,7 +1,6 @@
 import 'package:aqua_conecta/models/check_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Adicione a importação do Firestore
 import '../views/relatorio_view.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -15,41 +14,11 @@ class _AppDrawerState extends State<AppDrawer> {
   final _firebaseAuth = FirebaseAuth.instance;
   String nome = '';
   String email = '';
-  String imageURL = ''; // Variável para armazenar a URL da imagem de perfil
 
   @override
-  void initState() {
+  initState() {
     super.initState();
     getUser();
-  }
-
-  Future<void> getUser() async {
-    User? usuario = _firebaseAuth.currentUser;
-    if (usuario != null) {
-      setState(() {
-        nome = usuario.displayName ?? '';
-        email = usuario.email ?? '';
-      });
-      await _loadProfileImage();
-    }
-  }
-
-  Future<void> _loadProfileImage() async {
-    if (email.isEmpty) return;
-
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('usuários')
-        .doc(email)
-        .get();
-    if (userDoc.exists) {
-      String? url = userDoc.get('imageURL');
-
-      if (url != null) {
-        setState(() {
-          imageURL = url;
-        });
-      }
-    }
   }
 
   @override
@@ -67,19 +36,15 @@ class _AppDrawerState extends State<AppDrawer> {
               onTap: () {
                 Navigator.of(context).pushNamed('/perfil');
               },
-              child: Center(
+              child: const Center(
                 child: CircleAvatar(
                   radius: 40,
-                  backgroundColor: const Color(0xFF729AD6),
-                  backgroundImage:
-                      imageURL.isNotEmpty ? NetworkImage(imageURL) : null,
-                  child: imageURL.isEmpty
-                      ? const Icon(
-                          Icons.person,
-                          size: 50,
-                          color: Color(0xFF3555C5),
-                        )
-                      : null,
+                  backgroundColor: Color(0xFF729AD6),
+                  child: Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Color(0xFF3555C5),
+                  ),
                 ),
               ),
             ),
@@ -215,6 +180,16 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
       ),
     );
+  }
+
+  getUser() async {
+    User? usuario = _firebaseAuth.currentUser;
+    if (usuario != null) {
+      setState(() {
+        nome = usuario.displayName!;
+        email = usuario.email!;
+      });
+    }
   }
 
   sair() async {

@@ -109,29 +109,29 @@ class _ReportQualidadeState extends State<ReportQualidade> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Qualidade da Água'),
+        title: Text('Qualidade da Água'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.location_on, size: 50, color: Colors.blue),
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
-            const Text(
+            Text(
               'Adicione uma foto e selecione o(s) problema(s)',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 25),
+            SizedBox(height: 25),
             Center(
               child: GestureDetector(
                 onTap: _pickImage,
-                child: const Column(
+                child: Column(
                   children: [
                     Icon(Icons.camera_alt, size: 100, color: Colors.blue),
                     Text('Foto'),
@@ -139,7 +139,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             if (_image != null) // Verifica se há uma imagem capturada
               Center(
                 child: Image.file(
@@ -149,7 +149,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 ),
               ),
             CheckboxListTile(
-              title: const Text('Turva'),
+              title: Text('Turva'),
               value: isTurvaSelected,
               onChanged: (bool? value) {
                 setState(() {
@@ -158,7 +158,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
               },
             ),
             CheckboxListTile(
-              title: const Text('Mau cheiro'),
+              title: Text('Mau cheiro'),
               value: isMauCheiroSelected,
               onChanged: (bool? value) {
                 setState(() {
@@ -167,7 +167,7 @@ class _ReportQualidadeState extends State<ReportQualidade> {
               },
             ),
             CheckboxListTile(
-              title: const Text('Outros'),
+              title: Text('Outros'),
               value: isOutrosSelected,
               onChanged: (bool? value) {
                 setState(() {
@@ -175,13 +175,13 @@ class _ReportQualidadeState extends State<ReportQualidade> {
                 });
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () {
                   _handleClick(context); // Envia os dados ao clicar no botão
                 },
-                child: const Text('Enviar'),
+                child: Text('Enviar'),
               ),
             ),
           ],

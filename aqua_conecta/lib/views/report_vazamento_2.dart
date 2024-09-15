@@ -13,7 +13,7 @@ import '../services/location_geocoder.dart';
 class ReportDetailsPage extends StatefulWidget {
   final LatLng location;
 
-  const ReportDetailsPage({required this.location});
+  ReportDetailsPage({required this.location});
 
   @override
   _ReportDetailsPageState createState() => _ReportDetailsPageState();
@@ -106,10 +106,10 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vazamento'),
+        title: Text('Vazamento'),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -122,13 +122,13 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Adicione informações',
               style: TextStyle(
                   fontSize: 18, color: Color.fromARGB(255, 24, 10, 218)),
             ),
-            const SizedBox(height: 20),
-            const Row(
+            SizedBox(height: 20),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.horizontal_rule,
@@ -137,17 +137,17 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                 Icon(Icons.horizontal_rule, size: 50, color: Colors.grey),
               ],
             ),
-            const SizedBox(height: 25),
+            SizedBox(height: 25),
             GestureDetector(
               onTap: _pickImage,
-              child: const Column(
+              child: Column(
                 children: [
                   Icon(Icons.camera_alt, size: 100, color: Colors.blue),
                   Text('Foto do vazamento'),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             if (_image != null) // Verifica se há uma imagem capturada
               Center(
                 child: Image.file(
@@ -156,7 +156,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                   height: 200,
                 ),
               ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
@@ -167,7 +167,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               ),
               maxLines: 3,
             ),
-            const SizedBox(height: 80),
+            SizedBox(height: 80),
             LargeButton(
               texto: 'Enviar',
               onPressed: _submitReport,
